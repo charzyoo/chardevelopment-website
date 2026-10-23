@@ -547,14 +547,16 @@ section.hit,div.hit{animation:none;position:relative}
     document.querySelectorAll('.cards,.fgrid3,.why,.steps,.howstart ol,.faq,.works').forEach(function(g){g.classList.add('stg');Array.prototype.forEach.call(g.children,function(c,i){c.style.setProperty('--i',i)});if(!g.closest('.rev'))g.classList.add('rev')});
     document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(){var id=a.getAttribute('href').slice(1);var t=id&&document.getElementById(id);if(!t)return;setTimeout(function(){t.querySelectorAll('.wrap>*').forEach(function(c,i){c.style.setProperty('--j',i)});t.classList.remove('hit');void t.offsetWidth;t.classList.add('hit');setTimeout(function(){t.classList.remove('hit')},1600);t.querySelectorAll('.stg').forEach(function(g){g.classList.remove('in');void g.offsetWidth;g.classList.add('in')})},0)})});}
   if('IntersectionObserver' in window&&!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});document.querySelectorAll('.rev').forEach(function(el){io.observe(el)})}else{document.querySelectorAll('.rev').forEach(function(el){el.classList.add('in')})}
+  function postForm(api,fd){var b=new URLSearchParams(fd).toString(),H={'Content-Type':'application/x-www-form-urlencoded'};
+    return fetch(api,{method:'POST',headers:H,body:b}).then(function(r){if(r.ok)return r;if(r.status===404||r.status===405)return fetch('/',{method:'POST',headers:H,body:b}).then(function(r2){if(!r2.ok)throw 0;return r2});throw 0})}
   /* form: posts to Netlify Forms when hosted on Netlify; otherwise falls back to WhatsApp with the idea pre-filled */
   var f=document.getElementById('ideaForm');
   function summary(fd){var s=[];fd.getAll('service').forEach(function(v){s.push(v)});
     return (h.lang==='ar'?'فكرة جديدة من الموقع':'New idea from the website')+"\n"+(h.lang==='ar'?'الاسم: ':'Name: ')+fd.get('name')+"\n"+(h.lang==='ar'?'الرقم: ':'Phone: ')+fd.get('phone')+"\n"+(h.lang==='ar'?'الشركة: ':'Business: ')+(fd.get('business')||'-')+"\n"+(h.lang==='ar'?'الخدمة: ':'Service: ')+(s.join(', ')||'-')+"\n"+(h.lang==='ar'?'الفكرة: ':'Idea: ')+fd.get('idea')}
   f.addEventListener('submit',function(ev){ev.preventDefault();var fd=new FormData(f);var btn=document.getElementById('sendBtn');btn.disabled=true;
     var wa='https://wa.me/97335494968?text='+encodeURIComponent(summary(fd));document.getElementById('okwa').href=wa;
-    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()})
-      .then(function(r){if(!r.ok)throw 0;done()}).catch(function(){window.open(wa,'_blank');done()});
+    postForm('/api/idea',fd)
+      .then(function(){done()}).catch(function(){window.open(wa,'_blank');done()});
     function done(){document.getElementById('ok').classList.add('on');btn.disabled=false;f.reset();document.getElementById('ok').scrollIntoView({behavior:'smooth',block:'center'})}});
   /* draggable WhatsApp button: drag anywhere, snaps to the nearest side, tap still opens WhatsApp */
   (function(){var w=document.querySelector('.wa');if(!w)return;var sx,sy,ox,oy,moved=false,down=false;
@@ -571,7 +573,8 @@ section.hit,div.hit{animation:none;position:relative}
   var REVIEWS=[{"stars": 5, "text": "They built my real estate app and finished it in just 5 days.", "name": "Adam", "biz": "Real estate"}, {"stars": 4, "text": "موقع راقي جداً وجميل، أنصح فيه ١٠/١٠", "name": "خالد", "biz": ""}, {"stars": 5, "text": "موقع وتطبيق جميل جداً، قوي جداً", "name": "يوسف الحداد", "biz": ""}, {"stars": 5, "text": "أنا شريت برنامج Char Ai و Char Firm Files، الحين أسبوع أستخدمه، مب طبيعي والله", "name": "أمينة", "biz": ""}];
   (function(){var L=document.getElementById('revList'),E=document.getElementById('revEmpty');
     function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
-    if(REVIEWS.length){E.style.display='none';L.innerHTML=REVIEWS.map(function(r){return '<div class="rc"><div class="s">'+'★'.repeat(r.stars)+'</div><p>'+esc(r.text)+'</p><b>'+esc(r.name)+'</b><small>'+esc(r.biz||'')+'</small></div>'}).join('')}else{L.style.display='none'}
+    function paint(R){if(R.length){E.style.display='none';L.style.display='';L.innerHTML=R.map(function(r){return '<div class="rc"><div class="s">'+'★'.repeat(r.stars)+'</div><p>'+esc(r.text)+'</p><b>'+esc(r.name)+'</b><small>'+esc(r.biz||'')+'</small></div>'}).join('')}else{L.style.display='none'}}
+    paint(REVIEWS);fetch('/api/reviews').then(function(r){return r.ok?r.json():null}).then(function(R){if(Array.isArray(R)&&R.length){REVIEWS=R;paint(R);var nv=document.getElementById('revNav');if(nv)nv.style.display=''}}).catch(function(){});
     (function(){var L=document.getElementById('revList');if(!REVIEWS.length){document.getElementById('revNav').style.display='none';return}
       function step(d){var c=L.querySelector('.rc');var w=c?c.offsetWidth+18:340;var rtl=getComputedStyle(L).direction==='rtl';L.scrollBy({left:(rtl?-d:d)*w,behavior:'smooth'})}
       document.getElementById('revNext').onclick=function(){step(1)};document.getElementById('revPrev').onclick=function(){step(-1)};
@@ -582,7 +585,7 @@ section.hit,div.hit{animation:none;position:relative}
     var f=document.getElementById('revForm');
     f.addEventListener('submit',function(ev){ev.preventDefault();var fd=new FormData(f);var btn=document.getElementById('revBtn');btn.disabled=true;
       function done(){document.getElementById('revOk').classList.add('on');btn.disabled=false;f.reset()}
-      fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()}).then(function(r){if(!r.ok)throw 0;done()}).catch(function(){
+      postForm('/api/review',fd).then(function(){done()}).catch(function(){
         var t=(h.lang==='ar'?'تقييم جديد من الموقع':'New review from the website')+'\n'+'★'.repeat(+fd.get('rating'))+'\n'+fd.get('name')+(fd.get('business')?' - '+fd.get('business'):'')+'\n'+fd.get('review');
         window.open('https://wa.me/97335494968?text='+encodeURIComponent(t),'_blank');done()})});
   })();
