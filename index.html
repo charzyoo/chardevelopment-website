@@ -191,7 +191,8 @@ html[lang=en] .mt{font-family:var(--f-en);letter-spacing:-.02em}
 .wi{position:relative;overflow:hidden}
 .wi>i{position:absolute;inset:0;background:center/cover no-repeat;opacity:0}
 .wtabs{position:absolute;left:50%;bottom:12px;transform:translate(-50%,8px);display:flex;gap:6px;padding:5px;border-radius:40px;background:rgba(11,14,19,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;transition:opacity .3s,transform .3s;white-space:nowrap}
-.wtabs>span{font-size:12px;font-weight:700;line-height:1;color:#fff;padding:7px 12px;border-radius:30px;opacity:.65}
+.wtabs{user-select:none;-webkit-user-select:none}
+.wtabs>span{cursor:pointer;transition:background .2s,color .2s,opacity .2s;font-size:12px;font-weight:700;line-height:1;color:#fff;padding:7px 12px;border-radius:30px;opacity:.65}
 .wk:hover .wtabs,.wk.auto .wtabs{opacity:1;transform:translate(-50%,0)}
 .wk:hover .wi>i:nth-of-type(1),.wk.auto .wi>i:nth-of-type(1){animation:wpg2 6s infinite}
 .wk:hover .wi>i:nth-of-type(2),.wk.auto .wi>i:nth-of-type(2){animation:wpg3 6s infinite}
@@ -203,6 +204,13 @@ html[lang=en] .mt{font-family:var(--f-en);letter-spacing:-.02em}
 @keyframes wt1{0%,25%,95%,100%{opacity:1;background:#3ddc84;color:#0b0e13}30%,90%{opacity:.65;background:none;color:#fff}}
 @keyframes wt2{0%,25%{opacity:.65;background:none;color:#fff}30%,58%{opacity:1;background:#3ddc84;color:#0b0e13}63%,100%{opacity:.65;background:none;color:#fff}}
 @keyframes wt3{0%,58%{opacity:.65;background:none;color:#fff}63%,92%{opacity:1;background:#3ddc84;color:#0b0e13}97%,100%{opacity:.65;background:none;color:#fff}}
+/*tabs*/
+.wk[data-p] .wi>i,.wk[data-p] .wtabs>span{animation:none!important}
+.wk[data-p] .wtabs>span{opacity:.65;background:none;color:#fff}
+.wk[data-p="1"] .wtabs>span:nth-child(1),.wk[data-p="2"] .wtabs>span:nth-child(2),.wk[data-p="3"] .wtabs>span:nth-child(3){opacity:1;background:#3ddc84;color:#0b0e13}
+.wk[data-p="2"] .wi>i:nth-of-type(1),.wk[data-p="3"] .wi>i:nth-of-type(2){opacity:1}
+.wi>i{transition:opacity .35s}
+.wtabs>span:hover{opacity:1!important}
 @media (prefers-reduced-motion:reduce){.wi>i,.wtabs>span{animation:none!important}}
 
 .wb{padding:20px 22px 24px}.wb h3{margin:8px 0 6px;font-size:20px}.wb p{margin:0;color:var(--mu);font-size:15px}
