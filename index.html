@@ -617,4 +617,5 @@ section.hit,div.hit{animation:none;position:relative}
   setLang(saved==='en'?'en':'ar');
 })();
 </script>
+<script>(function(){document.querySelectorAll('.wk').forEach(function(w){w.querySelectorAll('.wtabs>span').forEach(function(t,i){t.setAttribute('role','button');t.setAttribute('tabindex','0');var go=function(e){e.preventDefault();e.stopPropagation();w.setAttribute('data-p',i+1)};t.addEventListener('click',go);t.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')go(e)})});w.addEventListener('mouseleave',function(){w.removeAttribute('data-p')})});if(matchMedia('(hover:hover)').matches||!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('auto',e.isIntersecting&&e.intersectionRatio>.6)})},{threshold:[0,.6,1]});document.querySelectorAll('.wk').forEach(function(w){io.observe(w)})})();</script>
 </body></html>
