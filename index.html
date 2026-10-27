@@ -449,6 +449,22 @@ html[dir=rtl] #bub .msg{border-radius:14px 4px 14px 14px}
 #bub .wa{margin-top:10px}
 @media (max-width:980px){.stage .laptop{width:min(100cqw,100cqh*1.6)}#tray .tt span{width:48px;height:30px}#tray .btn{padding:8px 10px;font-size:12.5px}.cmpon.inview .vfoot>span:first-child{visibility:visible}.inview #tray{bottom:calc(150px + env(safe-area-inset-bottom))}#bub{bottom:calc(76px + env(safe-area-inset-bottom));inset-inline-end:16px}#tray{bottom:calc(80px + env(safe-area-inset-bottom))}.cmpg{grid-template-columns:1fr;grid-auto-rows:1fr}.vacts .ib span{display:none}.vacts .ib{padding:0 10px}}
 @media (prefers-reduced-motion:reduce){#bub,#tray{transition:none}}
+
+/* page strip under the laptop */
+.arrow.prev svg{transform:none}.arrow.next svg{transform:scaleX(-1)}
+html[dir=ltr] .arrow.prev svg{transform:scaleX(-1)}html[dir=ltr] .arrow.next svg{transform:none}
+.pstrip{display:flex;justify-content:center;gap:10px;overflow-x:auto;scrollbar-width:none;padding:4px 2px 2px;flex:none}
+.pstrip::-webkit-scrollbar{display:none}
+.pstrip .ptab{display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px;border-radius:12px;border:1px solid var(--edge);background:rgba(255,255,255,.04);color:#c4ccd6;flex:none;transition:border-color .2s,background .2s,transform .2s}
+.pstrip .ptab:hover{border-color:var(--edge2);transform:translateY(-2px)}
+.pstrip .pth{position:relative;width:112px;aspect-ratio:16/10;border-radius:7px;overflow:hidden;background:#0b1526;display:block}
+.pstrip .pth img{width:100%;height:100%;object-fit:cover;object-position:top}
+.pstrip .pth i{position:absolute;top:4px;inset-inline-start:4px;font-style:normal;font-size:10.5px;font-weight:600;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:rgba(8,16,32,.8)}
+.pstrip .plb{font-size:12.5px;white-space:nowrap}
+.pstrip .ptab[aria-selected=true]{border-color:var(--mood,#3ddc84);background:color-mix(in srgb,var(--mood,#3ddc84) 16%,transparent);color:#fff;box-shadow:0 10px 30px -14px var(--mood,#3ddc84)}
+.pstrip .ptab[aria-selected=true] .pth i{background:var(--mood,#3ddc84);color:#071226}
+@media (max-width:980px){.pstrip{justify-content:flex-start;margin-inline:-16px;padding-inline:16px}.pstrip .pth{width:84px}.pstrip .plb{font-size:11.5px}}
+@media (min-width:981px) and (max-height:760px){.pstrip .pth{width:88px}}
 </style>
 </head>
 <body>
@@ -564,14 +580,14 @@ html[dir=rtl] #bub .msg{border-radius:14px 4px 14px 14px}
      <div class="vtop">
       <a class="back" id="vBack" href="#examples"><svg class="flip" style="transform:none"><use href="#i-arrow"/></svg><span id="vBackTxt"></span></a>
       <div class="vtitle" id="vTitle"></div>
-      <div class="ptabs" id="ptabs" role="tablist"></div>
       <div class="vacts"><button class="ib fav" type="button" id="vFav" aria-pressed="false"><svg><use href="#i-heart"/></svg><span><span class="ar">المفضلة</span><span class="en">Favourite</span></span></button><button class="ib cmpb" type="button" id="vCmp" aria-pressed="false"><svg><use href="#i-cmp"/></svg><span><span class="ar">قارن</span><span class="en">Compare</span></span></button></div>
      </div>
      <div class="stage" id="stage">
-      <button class="arrow prev" id="dPrev" type="button" aria-label="Previous page"><svg class="flip"><use href="#i-arrow"/></svg></button>
+      <button class="arrow prev" id="dPrev" type="button" aria-label="Previous page"><svg><use href="#i-arrow"/></svg></button>
       <div class="laptop tilt" id="vLap"><div class="lid"><span class="cam"></span><div class="scr"><img id="vImg" alt=""><span class="glare"></span></div></div><div class="base"><i></i></div></div>
-      <button class="arrow next" id="dNext" type="button" aria-label="Next page"><svg class="flip" style="transform:none"><use href="#i-arrow"/></svg></button>
+      <button class="arrow next" id="dNext" type="button" aria-label="Next page"><svg><use href="#i-arrow"/></svg></button>
      </div>
+     <div class="pstrip" id="ptabs" role="tablist" aria-label="Pages"></div>
      <div class="vfoot"><span><span class="hint"><span class="ar">اضغط على الصورة لتكبيرها. </span><span class="en">Tap the image to zoom. </span></span><span class="ar">الأسماء والمنتجات في التصاميم للعرض فقط. موقعك يطلع باسمك وهويتك.</span><span class="en">Names and products in the designs are for display only. Yours is built with your name and brand.</span></span><span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn" id="vPage" style="padding:9px 14px;font-size:13.5px"><span class="ar">صفحة التصميم</span><span class="en">Design page</span></a><a class="btn m" id="vWa" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-wa"/></svg><span class="ar">أبي موقع بهالشكل</span><span class="en">I want a site like this</span></a></span></div>
     </div>
     <div class="cmp" id="cmp">
@@ -835,7 +851,7 @@ var vIt=null,vP=0;
 function openDesign(it,p){if(lastD!==it.id){lastD=it.id;hit('design',it.id)}vIt=it;vP=Math.max(0,Math.min(it.p.length-1,p||0));
  $('#vBackTxt').innerHTML=T('كل تصاميم '+it.cat.ar,'All '+it.cat.en.toLowerCase());$('#vBack').href='#examples/'+it.cat.id;
  $('#vTitle').innerHTML=T(it.ar,it.en)+'<small>'+T(it.la,it.le)+'</small>';
- $('#ptabs').innerHTML=it.p.map(function(pg,i){return '<button class="ptab" role="tab" type="button" data-i="'+i+'" aria-selected="'+(i===vP)+'">'+T(pg[1],pg[2])+'</button>'}).join('');
+ $('#ptabs').innerHTML=it.p.map(function(pg,i){return '<button class="ptab" role="tab" type="button" data-i="'+i+'" aria-selected="'+(i===vP)+'"><span class="pth"><img src="'+img(pg[0],1)+'" alt="" loading="lazy"><i>'+(i+1)+'</i></span><span class="plb">'+T(pg[1],pg[2])+'</span></button>'}).join('');var sel=$('#ptabs .ptab[aria-selected=true]');if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:'nearest',inline:'nearest'});
  $$('#ptabs .ptab').forEach(function(b){b.onclick=function(){go(+b.dataset.i)}});
  var pg=it.p[vP],vi=$('#vImg'),ns=img(pg[0]);if(vi.getAttribute('src')!==ns){if(vi.getAttribute('src')){vi.style.opacity=0;setTimeout(function(){vi.src=ns;vi.onload=function(){vi.style.opacity=1}},160)}else vi.src=ns}vi.alt=it.en+' – '+pg[2];
  $('#vFav').setAttribute('aria-pressed',isFav(it.id));$('#vCmp').setAttribute('aria-pressed',CMP.indexOf(it.id)>=0);
