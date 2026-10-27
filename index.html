@@ -264,8 +264,8 @@ html[dir=rtl] .stars{justify-content:flex-start}
  .top .brand{padding:0}.top .brand img{width:30px}
  .top .acts{display:flex;gap:8px;align-items:center}
  .top .wa{padding:8px 12px;font-size:13px;border-radius:10px}
- .tabbar{display:grid;grid-row:3;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--edge);background:#0e131a;padding:6px 4px calc(env(safe-area-inset-bottom) + 6px)}
- .tabbar a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:var(--mute);padding:4px 0}
+ .tabbar{display:grid;grid-row:3;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--edge);background:#0e131a;padding:6px 4px calc(env(safe-area-inset-bottom) + 6px)}
+ .tabbar a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;white-space:nowrap;color:var(--mute);padding:4px 0}
  .tabbar a svg{width:20px;height:20px}
  .tabbar a[aria-current=page]{color:var(--mint)}
  .view{padding:16px}
@@ -511,6 +511,24 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
 .ctime:hover{border-color:var(--mint);background:rgba(61,220,132,.1)}
 .csel{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(61,220,132,.12);border:1px solid rgba(61,220,132,.3);font-size:14px}
 .cmsg{color:var(--mute);font-size:14px;line-height:1.7;padding:12px 0}
+
+/* clients */
+.clw{flex:1;min-height:0;display:grid;grid-template-columns:300px 1fr;gap:clamp(16px,2.4vw,32px)}
+.cll{display:flex;flex-direction:column;gap:10px;overflow:auto;min-height:0;scrollbar-width:none}
+.clc{display:flex;gap:12px;align-items:center;text-align:start;padding:12px;border-radius:16px;border:1px solid var(--edge);background:rgba(255,255,255,.05);transition:border-color .2s,background .2s}
+.clc:hover{border-color:var(--edge2)}
+.clc[aria-pressed=true]{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);box-shadow:0 14px 34px -18px var(--c)}
+.clc .lo{width:54px;height:54px;border-radius:14px;overflow:hidden;flex:none;background:#fff;box-shadow:0 8px 20px -10px #000}
+.clc .lo img{width:100%;height:100%;object-fit:cover}
+.clc b{display:block;font-size:15px;font-weight:600}.clc small{color:var(--mute);font-size:12.5px;line-height:1.5;display:block}
+.clc.next{border-style:dashed;background:transparent}.clc.next .lo{background:rgba(255,255,255,.06);display:grid;place-items:center;color:var(--mint);box-shadow:none;border:1px dashed var(--edge2)}.clc.next .lo svg{width:24px;height:24px}
+.clv{display:flex;flex-direction:column;gap:12px;min-height:0;--mood:var(--clc,#c08a5a)}
+.clhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.clhead b{font-size:19px;font-weight:600}.clhead .tg{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--edge2);color:#c9d0d8}
+.clhead a{margin-inline-start:auto;font-size:13px;color:var(--mint)}
+.clv .stage{flex:1;min-height:0}
+.clv .stage .laptop{width:min(100cqw,100cqh*1.6)}
+@media (max-width:980px){.clw{grid-template-columns:1fr;grid-template-rows:auto 1fr}.cll{flex-direction:row;overflow-x:auto;margin-inline:-16px;padding-inline:16px}.clc{flex:none;width:250px}.clv .stage{min-height:230px}}
 </style>
 </head>
 <body>
@@ -534,6 +552,7 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
  <symbol id="i-fire" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s5 4.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 1-3.5S9 11 11 11c0-4 1-9 1-9zm0 20a7 7 0 0 0 7-7c0-2-.6-3.6-1.4-4.9C17 14 15 16 12 16s-4.4-1.6-4.9-3.4C6.4 13.6 5 14.6 5 15a7 7 0 0 0 7 7z"/></symbol>
+ <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></symbol>
  <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></symbol>
 </svg>
 <div id="intro" aria-hidden="true"><div class="lg"><div class="mk"></div><div class="wm">CHAR<small>DEVELOPMENT</small></div></div></div>
@@ -551,6 +570,7 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
    <a href="#services" data-v="services"><svg><use href="#i-box"/></svg><span class="ar">خدماتنا</span><span class="en">Services</span></a>
    <a href="#examples" data-v="examples"><svg><use href="#i-grid"/></svg><span class="ar">أمثلة المواقع</span><span class="en">Website examples</span></a>
    <div class="sub" id="railSub"></div>
+   <a href="#clients" data-v="clients"><svg><use href="#i-star"/></svg><span class="ar">عملاؤنا</span><span class="en">Our clients</span></a>
    <a href="#products" data-v="products"><svg><use href="#i-ai"/></svg><span class="ar">برامجنا</span><span class="en">Our software</span></a>
    <div class="sub" id="railSub2"><a href="#products/ai" data-pp="ai">Char Ai</a><a href="#products/files" data-pp="files">Char Firm Files</a></div>
    <a href="#pricing" data-v="pricing"><svg><use href="#i-tag"/></svg><span class="ar">الأسعار</span><span class="en">Pricing</span></a>
@@ -642,6 +662,19 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
     <div class="cmp" id="cmp">
      <div class="vtop"><a class="back" id="cBack" href="#examples"><svg class="flip" style="transform:none"><use href="#i-arrow"/></svg><span><span class="ar">رجوع للتصاميم</span><span class="en">Back to designs</span></span></a><div class="vtitle"><span class="ar">مقارنة تصميمين</span><span class="en">Compare two designs</span></div></div>
      <div class="cmpg" id="cmpg"></div>
+    </div>
+   </div>
+  </section>
+
+  <!-- CLIENTS -->
+  <section class="view" id="v-clients" aria-label="Our clients">
+   <div class="vh"><div><h2><span class="ar">عملاؤنا</span><span class="en">Our clients</span></h2><p><span class="ar">شغل حقيقي سلّمناه لعملائنا. ما نعرض أسماءهم احتراماً لخصوصيتهم، ونعرض اللي بنيناه لهم.</span><span class="en">Real work we delivered. We keep our clients' names private and show what we built for them.</span></p></div></div>
+   <div class="clw">
+    <div class="cll" id="clList"></div>
+    <div class="clv">
+     <div class="clhead" id="clHead"></div>
+     <div class="stage"><div class="laptop" id="clLap"><div class="lid"><span class="cam"></span><div class="scr"><img id="clImg" alt=""><span class="glare"></span></div></div><div class="base"><i></i></div></div></div>
+     <div class="pstrip" id="clStrip"></div>
     </div>
    </div>
   </section>
@@ -782,6 +815,7 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
   <a href="#home" data-v="home"><svg><use href="#i-home"/></svg><span class="ar">الرئيسية</span><span class="en">Home</span></a>
   <a href="#services" data-v="services"><svg><use href="#i-box"/></svg><span class="ar">خدماتنا</span><span class="en">Services</span></a>
   <a href="#examples" data-v="examples"><svg><use href="#i-grid"/></svg><span class="ar">الأمثلة</span><span class="en">Examples</span></a>
+  <a href="#clients" data-v="clients"><svg><use href="#i-star"/></svg><span class="ar">عملاؤنا</span><span class="en">Clients</span></a>
   <a href="#products" data-v="products"><svg><use href="#i-ai"/></svg><span class="ar">برامجنا</span><span class="en">Software</span></a>
   <a href="#pricing" data-v="pricing"><svg><use href="#i-tag"/></svg><span class="ar">الأسعار</span><span class="en">Pricing</span></a>
   <a href="#contact" data-v="contact"><svg><use href="#i-chat"/></svg><span class="ar">تواصل</span><span class="en">Contact</span></a>
@@ -852,7 +886,7 @@ function byId(id){for(var i=0;i<ALL.length;i++)if(ALL[i].id===id)return ALL[i]}
 /* language */
 function setLang(l){h.lang=l;h.dir=l==='ar'?'rtl':'ltr';$$('[data-lang]').forEach(function(b){b.textContent=l==='ar'?(b.closest('.top')?'EN':'English'):(b.closest('.top')?'ع':'العربية')});
  $('#f-phone').placeholder='+973 3xxx xxxx';$('#f-idea').placeholder=l==='ar'?'مثال: محل عبايات ويبي متجر أونلاين بدفع Benefit...':'Example: an abaya shop that wants an online store with Benefit pay...';
- try{localStorage.setItem('lang',l)}catch(e){} if(cur.v==='examples')renderExamples();paintShow();if(typeof paintFav==='function'){paintFav();paintTray()}}
+ try{localStorage.setItem('lang',l)}catch(e){} if(cur.v==='examples')renderExamples();paintShow();if(typeof paintClients==='function')paintClients();if(typeof paintFav==='function'){paintFav();paintTray()}}
 $$('[data-lang]').forEach(function(b){b.addEventListener('click',function(){setLang(h.lang==='ar'?'en':'ar')})});
 
 /* rail sub-categories + chips */
@@ -1037,6 +1071,24 @@ function normQ(t){return String(t||'').toLowerCase().replace(/[أإآ]/g,'ا').r
    if(!r.ok)throw 0;step(0);$('#callOk').innerHTML='<b>'+T('تم حجز المكالمة ✓','Your call is booked ✓')+'</b><br>'+$('#cSel').textContent+'. '+T('بنتصل فيك على رقمك في الوقت هذا.','We will call you on your number at this time.');$('#callOk').classList.add('on');f.reset();hit('book','call')})
   .catch(function(){btn.disabled=false;var ar=h.lang==='ar',t=(ar?'هلا، أبي أحجز مكالمة: ':'Hi, I want to book a call: ')+$('#cSel').textContent+'\n'+fd.get('name')+' '+fd.get('phone')+(fd.get('topic')?'\n'+fd.get('topic'):'');window.open(WA+'?text='+encodeURIComponent(t),'_blank')})});
 })();
+
+/* clients */
+var CLIENTS=[
+ {id:'law1',logo:'img/cl/law-logo.webp',c:'#c08a5a',ar:'مكتب محاماة',en:'Law firm',wa:'نظام ملفات وصلاحيات خاص بالمكتب',we:'A private files and permissions system',prod:'files',
+  tags:[['Char Firm Files','Char Firm Files'],['بهوية المكتب','In their branding'],['8 مستخدمين','8 users']],
+  shots:[['img/cl/law-dash.webp','لوحة التحكم','Dashboard'],['img/cl/law-login.webp','تسجيل الدخول','Sign in'],['img/cl/law-cover.webp','شعار التطبيق','App icon']]}
+];
+var clSel=0,clP=0;
+function paintClients(){var L=$('#clList');
+ L.innerHTML=CLIENTS.map(function(c,i){return '<button type="button" class="clc" data-i="'+i+'" aria-pressed="'+(i===clSel)+'" style="--c:'+c.c+'"><span class="lo"><img src="'+c.logo+'" alt=""></span><span><b>'+T(c.ar,c.en)+'</b><small>'+T(c.wa,c.we)+'</small></span></button>'}).join('')+
+ '<a class="clc next" href="#contact"><span class="lo"><svg><use href="#i-plus"/></svg></span><span><b>'+T('مكانك هنا','Your business here')+'</b><small>'+T('خلّ مشروعك يكون الجاي.','Make yours the next project.')+'</small></span></a>';
+ $$('#clList .clc[data-i]').forEach(function(b){b.onclick=function(){clSel=+b.dataset.i;clP=0;paintClients()}});
+ var c=CLIENTS[clSel];$('.clv').style.setProperty('--clc',c.c);
+ $('#clHead').innerHTML='<b>'+T(c.ar,c.en)+'</b>'+c.tags.map(function(t){return '<span class="tg">'+T(t[0],t[1])+'</span>'}).join('')+(c.prod?'<a href="#products/'+c.prod+'">'+T('تفاصيل البرنامج','About this software')+'</a>':'');
+ var im=$('#clImg'),src=c.shots[clP][0];if(im.getAttribute('src')!==src){im.style.opacity=0;setTimeout(function(){im.src=src;im.onload=function(){im.style.opacity=1}},120)}
+ $('#clStrip').innerHTML=c.shots.map(function(sh,i){return '<button class="ptab" type="button" data-i="'+i+'" aria-selected="'+(i===clP)+'"><span class="pth"><img src="'+sh[0]+'" alt=""><i>'+(i+1)+'</i></span><span class="plb">'+T(sh[1],sh[2])+'</span></button>'}).join('');
+ $$('#clStrip .ptab').forEach(function(b){b.onclick=function(){clP=+b.dataset.i;paintClients()}})}
+paintClients();tilt($('#clLap'));
 /* product search */
 (function(){var q=$('#pSearch');function norm(t){return String(t||'').toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي')}
  function run(){var v=norm(q.value.trim()),vis=[];$$('.pt').forEach(function(b){var ok=!v||norm(b.textContent+' '+(b.dataset.k||'')).indexOf(v)>=0;b.classList.toggle('hide',!ok);if(ok)vis.push(b)});
