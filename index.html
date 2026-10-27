@@ -465,6 +465,24 @@ html[dir=ltr] .arrow.prev svg{transform:scaleX(-1)}html[dir=ltr] .arrow.next svg
 .pstrip .ptab[aria-selected=true] .pth i{background:var(--mood,#3ddc84);color:#071226}
 @media (max-width:980px){.pstrip{justify-content:flex-start;margin-inline:-16px;padding-inline:16px}.pstrip .pth{width:84px}.pstrip .plb{font-size:11.5px}}
 @media (min-width:981px) and (max-height:760px){.pstrip .pth{width:88px}}
+
+/* software tiles */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;align-content:start}
+.pt{position:relative;display:flex;flex-direction:column;gap:8px;padding:18px;border-radius:18px;border:1px solid var(--edge);background:radial-gradient(300px 160px at 100% 0%,color-mix(in srgb,var(--c) 18%,transparent),transparent 70%),rgba(255,255,255,.05);backdrop-filter:blur(14px);transition:transform .25s var(--ease),border-color .25s,box-shadow .25s;min-height:210px}
+html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in srgb,var(--c) 18%,transparent),transparent 70%),rgba(255,255,255,.05)}
+.pt:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 60%,transparent);box-shadow:0 24px 50px -24px var(--c)}
+.pt .lg{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,color-mix(in srgb,var(--c) 90%,#fff),color-mix(in srgb,var(--c) 60%,#000));color:#071226;box-shadow:0 12px 26px -10px var(--c),inset 0 1px 0 rgba(255,255,255,.5);margin-bottom:4px}
+.pt .lg svg{width:26px;height:26px}
+.pt b{font-size:17px;font-weight:600}
+.pt p{color:var(--mute);font-size:13.5px;line-height:1.6}
+.pt .tags{display:flex;gap:6px;flex-wrap:wrap}.pt .tags>span{font-size:11.5px;padding:3px 9px;border-radius:999px;border:1px solid var(--edge2);color:#c9d0d8}
+.pt .more{margin-top:auto;font-size:13px;color:var(--c);font-weight:500}
+.pt.idea{border-style:dashed;background:transparent}.pt.idea .lg{background:rgba(255,255,255,.06);color:#cfd6de;box-shadow:none;border:1px dashed var(--edge2)}
+.pt.hide{display:none}
+@media (max-width:560px){.pgrid{grid-template-columns:1fr 1fr;gap:10px}.pt{min-height:0;padding:14px;gap:6px}.pt .lg{width:44px;height:44px;border-radius:12px}.pt .lg svg{width:22px;height:22px}.pt b{font-size:15px}.pt p{font-size:12px}.pt .tags{display:none}}
+.pback{margin-bottom:12px;display:none}
+#v-products.det .pgrid{display:none}#v-products.det .pback{display:inline-flex}
+#v-products.det .vh p,#v-products.det .psearch{display:none}
 </style>
 </head>
 <body>
@@ -503,7 +521,7 @@ html[dir=ltr] .arrow.prev svg{transform:scaleX(-1)}html[dir=ltr] .arrow.next svg
    <a href="#services" data-v="services"><svg><use href="#i-box"/></svg><span class="ar">خدماتنا</span><span class="en">Services</span></a>
    <a href="#examples" data-v="examples"><svg><use href="#i-grid"/></svg><span class="ar">أمثلة المواقع</span><span class="en">Website examples</span></a>
    <div class="sub" id="railSub"></div>
-   <a href="#products/ai" data-v="products"><svg><use href="#i-ai"/></svg><span class="ar">برامجنا</span><span class="en">Our software</span></a>
+   <a href="#products" data-v="products"><svg><use href="#i-ai"/></svg><span class="ar">برامجنا</span><span class="en">Our software</span></a>
    <div class="sub" id="railSub2"><a href="#products/ai" data-pp="ai">Char Ai</a><a href="#products/files" data-pp="files">Char Firm Files</a></div>
    <a href="#pricing" data-v="pricing"><svg><use href="#i-tag"/></svg><span class="ar">الأسعار</span><span class="en">Pricing</span></a>
    <a href="#contact" data-v="contact"><svg><use href="#i-chat"/></svg><span class="ar">تواصل معنا</span><span class="en">Contact</span></a>
@@ -599,12 +617,14 @@ html[dir=ltr] .arrow.prev svg{transform:scaleX(-1)}html[dir=ltr] .arrow.next svg
 
   <!-- PRODUCTS -->
   <section class="view" id="v-products" aria-label="Our software">
-   <div class="vh"><div><h2><span class="ar">برامجنا</span><span class="en">Our software</span></h2><p><span class="ar">برامج جاهزة نبيعها ونجهزها لك. اختر برنامج أو ابحث عنه.</span><span class="en">Ready-made software we sell and set up for you. Pick one or search.</span></p></div>
+   <div class="vh"><div><h2><span class="ar">برامجنا</span><span class="en">Our software</span></h2><p><span class="ar">برامج جاهزة نبيعها ونجهزها لك. اضغط على أي برنامج تشوف تفاصيله.</span><span class="en">Ready-made software we sell and set up for you. Tap one to see the details.</span></p></div>
     <label class="psearch"><svg><use href="#i-search"/></svg><input id="pSearch" type="search" autocomplete="off"><span class="sr" id="pNone"></span></label></div>
-   <div class="pswitch" role="tablist" aria-label="Products">
-    <button type="button" role="tab" data-prod="ai" class="ps gold" data-k="ai ذكاء اصطناعي محامي محامين قانون قانوني legal lawyer law مذكرة عقد"><span class="ic"><svg><use href="#i-ai"/></svg></span><span><b>Char Ai</b><small><span class="ar">مساعد قانوني للمحامين في البحرين</span><span class="en">AI legal assistant for lawyers in Bahrain</span></small></span></button>
-    <button type="button" role="tab" data-prod="files" class="ps" data-k="files ملفات مجلدات مكتب مكاتب شركة صلاحيات أرشيف documents folders office archive"><span class="ic"><svg><use href="#i-folder"/></svg></span><span><b>Char Firm Files</b><small><span class="ar">نظام ملفات وصلاحيات للمكاتب والشركات</span><span class="en">Files and permissions system for offices</span></small></span></button>
+   <div class="pgrid" id="pgrid">
+    <a class="pt" href="#products/ai" style="--c:#f2c14e" data-k="char ai ذكاء اصطناعي محامي محامين قانون قانوني legal lawyer law مذكرة عقد"><span class="lg"><svg><use href="#i-ai"/></svg></span><b>Char Ai</b><p><span class="ar">مساعد قانوني ذكي للمحامين، مبني على قوانين البحرين.</span><span class="en">AI legal assistant for lawyers, built on Bahrain law.</span></p><span class="tags"><span><span class="ar">للمحامين</span><span class="en">Lawyers</span></span><span><span class="ar">يشتغل من المتصفح</span><span class="en">In your browser</span></span></span><span class="more"><span class="ar">من 100 د.ب</span><span class="en">From 100 BHD</span></span></a>
+    <a class="pt" href="#products/files" style="--c:#2fd6c3" data-k="char firm files ملفات مجلدات مكتب مكاتب شركة صلاحيات أرشيف documents folders office archive"><span class="lg"><svg><use href="#i-folder"/></svg></span><b>Char Firm Files</b><p><span class="ar">كل ملفات المكتب في مكان واحد آمن، بصلاحيات لكل موظف.</span><span class="en">Every office file in one secure place, with access per employee.</span></p><span class="tags"><span><span class="ar">للمكاتب والشركات</span><span class="en">Offices</span></span><span><span class="ar">من 5 مستخدمين</span><span class="en">5+ users</span></span></span><span class="more"><span class="ar">من 450 د.ب</span><span class="en">From 450 BHD</span></span></a>
+    <a class="pt idea" href="#contact" style="--c:#9fb0c6" data-k="فكرة جديد برنامج نظام تطبيق idea new custom app system"><span class="lg"><svg><use href="#i-plus"/></svg></span><b><span class="ar">برنامجك الخاص</span><span class="en">Your own software</span></b><p><span class="ar">عندك فكرة برنامج أو نظام لشغلك؟ نسويه لك من الصفر.</span><span class="en">Have an idea for a program or system? We build it from scratch.</span></p><span class="more"><span class="ar">قول لنا فكرتك</span><span class="en">Tell us your idea</span></span></a>
    </div>
+   <a class="back pback" id="pBack" href="#products"><svg class="flip" style="transform:none"><use href="#i-arrow"/></svg><span><span class="ar">كل البرامج</span><span class="en">All software</span></span></a>
    <div class="prod" id="prod-ai">
     <div class="frame"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg><use href="#i-lock"/></svg><span>charai.app</span></div></div><div class="shot"><img src="img/s_ai.webp" alt="Char Ai" loading="lazy"></div></div>
     <div>
@@ -730,7 +750,7 @@ html[dir=ltr] .arrow.prev svg{transform:scaleX(-1)}html[dir=ltr] .arrow.next svg
   <a href="#home" data-v="home"><svg><use href="#i-home"/></svg><span class="ar">الرئيسية</span><span class="en">Home</span></a>
   <a href="#services" data-v="services"><svg><use href="#i-box"/></svg><span class="ar">خدماتنا</span><span class="en">Services</span></a>
   <a href="#examples" data-v="examples"><svg><use href="#i-grid"/></svg><span class="ar">الأمثلة</span><span class="en">Examples</span></a>
-  <a href="#products/ai" data-v="products"><svg><use href="#i-ai"/></svg><span class="ar">برامجنا</span><span class="en">Software</span></a>
+  <a href="#products" data-v="products"><svg><use href="#i-ai"/></svg><span class="ar">برامجنا</span><span class="en">Software</span></a>
   <a href="#pricing" data-v="pricing"><svg><use href="#i-tag"/></svg><span class="ar">الأسعار</span><span class="en">Pricing</span></a>
   <a href="#contact" data-v="contact"><svg><use href="#i-chat"/></svg><span class="ar">تواصل</span><span class="en">Contact</span></a>
  </nav>
@@ -808,7 +828,7 @@ function route(){var r=decodeURIComponent(location.hash.slice(1))||'home';if(MAP
  if(v!=='examples'){setMood('#45c8ff');h.classList.remove('inview')}
  if(v==='examples')renderExamples();
  if(typeof paintTray==='function')paintTray();
- if(v==='products')showProd(p[1]==='files'?'files':'ai');
+ if(v==='products')showProd(p[1]==='files'||p[1]==='ai'?p[1]:'');
  var t=$('#v-'+v);t.scrollTop=0;
  document.title=(v==='home'?'Char Development | تصميم مواقع وتطبيقات وأنظمة في البحرين':($('#v-'+v).getAttribute('aria-label')+' | Char Development'));
 }
@@ -935,10 +955,10 @@ function normQ(t){return String(t||'').toLowerCase().replace(/[أإآ]/g,'ا').r
  function ph(){q.placeholder=h.lang==='ar'?'ابحث: عبايات، كافيه، عود، حلاق…':'Search: abaya, café, oud, barber…'}ph();new MutationObserver(ph).observe(h,{attributes:true,attributeFilter:['lang']})})();
 /* product search */
 (function(){var q=$('#pSearch');function norm(t){return String(t||'').toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي')}
- function run(){var v=norm(q.value.trim()),vis=[];$$('.ps').forEach(function(b){var ok=!v||norm(b.textContent+' '+(b.dataset.k||'')).indexOf(v)>=0;b.classList.toggle('hide',!ok);if(ok)vis.push(b)});
+ function run(){var v=norm(q.value.trim()),vis=[];$$('.pt').forEach(function(b){var ok=!v||norm(b.textContent+' '+(b.dataset.k||'')).indexOf(v)>=0;b.classList.toggle('hide',!ok);if(ok)vis.push(b)});
   $('#pNone').innerHTML=vis.length?'':T('ما لقينا برنامج بهالاسم. راسلنا ونسويه لك.','No program with that name. Message us and we will build it.');
-  if(vis.length===1&&vis[0].getAttribute('aria-selected')!=='true')vis[0].click()}
- q.addEventListener('input',run);q.addEventListener('keydown',function(e){if(e.key==='Enter'){var f=$('.ps:not(.hide)');if(f)f.click()}});
+}
+ q.addEventListener('input',run);q.addEventListener('keydown',function(e){if(e.key==='Enter'){var f=$('.pt:not(.hide)');if(f)location.hash=f.getAttribute('href').slice(1)}});
  function ph(){q.placeholder=h.lang==='ar'?'ابحث في برامجنا…':'Search our software…'}ph();new MutationObserver(ph).observe(h,{attributes:true,attributeFilter:['lang']})})();
 /* home showcase */
 var SHOW=['abaya-set-5-3-layali-arabic-dark','food-2-roast-and-rise-cafe','perfume-1-dar-al-oud-arabic','salon-1-lamsa-arabic','abaya-set-4-1-noir','realestate-1-pearlcoast-luxury'].map(byId).filter(Boolean),si=0;
@@ -947,8 +967,8 @@ function paintShow(){var n=SHOW.length,it=SHOW[si];[1,2,3].forEach(function(k){v
 paintShow();if(!reduce)setInterval(function(){if(cur.v!=='home'||document.hidden)return;si=(si+1)%SHOW.length;paintShow()},3800);
 
 /* products */
-function showProd(k){$$('.prod').forEach(function(p){p.classList.toggle('on',p.id==='prod-'+k)});$$('[data-prod]').forEach(function(b){b.setAttribute('aria-selected',b.dataset.prod===k)});$$('#railSub2 a').forEach(function(a){a.setAttribute('aria-current',a.dataset.pp===k)})}
-$$('[data-prod]').forEach(function(b){b.onclick=function(){history.replaceState(null,'','#products/'+b.dataset.prod);showProd(b.dataset.prod)}});
+function showProd(k){$('#v-products').classList.toggle('det',!!k);$$('.prod').forEach(function(p){p.classList.toggle('on',p.id==='prod-'+k)});$$('#railSub2 a').forEach(function(a){a.setAttribute('aria-current',a.dataset.pp===k)})}
+
 $$('[data-pick]').forEach(function(a){a.addEventListener('click',function(){var c=$('#pick-'+a.dataset.pick);if(c)c.checked=true})});
 
 /* forms */
