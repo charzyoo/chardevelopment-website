@@ -162,12 +162,23 @@ html[dir=rtl] .flip{transform:scaleX(-1)}
 .zoom{position:fixed;inset:0;background:rgba(5,7,10,.94);z-index:100;display:none;overflow:auto;cursor:zoom-out}
 .zoom.on{display:block}.zoom img{width:min(1600px,100%);margin:0 auto}
 /* PRODUCTS */
+.pswitch{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:clamp(14px,2.4vh,26px)}
+.ps{display:flex;align-items:center;gap:14px;text-align:start;padding:14px 18px;border-radius:16px;border:1px solid var(--edge2);background:transparent;transition:background .2s,border-color .2s}
+.ps .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(61,220,132,.1);color:var(--mint);flex:none}
+.ps.gold .ic{background:rgba(227,197,138,.12);color:var(--sand)}
+.ps .ic svg{width:22px;height:22px}
+.ps b{display:block;font-size:17px;font-weight:600}
+.ps small{display:block;color:var(--mute);font-size:13px;margin-top:2px}
+.ps:hover{border-color:#fff}
+.ps[aria-selected=true]{background:var(--deck2);border-color:var(--mint);box-shadow:inset 0 -3px 0 var(--mint)}
+.ps.gold[aria-selected=true]{border-color:var(--sand);box-shadow:inset 0 -3px 0 var(--sand)}
+.ps[aria-selected=false]{opacity:.72}.ps[aria-selected=false]:hover{opacity:1}
 .ptoggle{display:inline-flex;border:1px solid var(--edge2);border-radius:12px;padding:4px;gap:4px}
 .ptoggle button{padding:8px 16px;border-radius:9px;font-size:14px;color:#c4ccd6}
 .ptoggle button[aria-selected=true]{background:var(--paper);color:var(--ink)}
 .prod{flex:1;min-height:0;display:none;grid-template-columns:1.1fr 1fr;gap:clamp(18px,2.6vw,40px);align-items:center}
 .prod.on{display:grid}
-.prod .frame{width:min(100%,calc((100dvh - 250px)*1.6));justify-self:center}
+.prod .frame{width:min(100%,calc((100dvh - 360px)*1.6));justify-self:center}
 .prod .shot img{object-fit:cover;object-position:top}
 .prod h3{font-size:clamp(20px,1.9vw,26px);font-weight:600;margin-bottom:8px}
 .prod .lead{color:#b5bec9;font-size:14.5px;line-height:1.7;margin-bottom:18px}
@@ -258,14 +269,76 @@ html[dir=rtl] .stars{justify-content:flex-start}
  .chips{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding-inline:16px;scrollbar-width:none}
  .stage .frame{width:min(100cqw,(100cqh - 34px)*1.6)}
  .arrow{display:none}
- .prod.on{grid-template-columns:1fr;align-content:start}
+ .prod.on{grid-template-columns:1fr;align-content:start;flex:none}
+ .svc,.prices,.contact,.process,.vh,.pswitch,.revs{flex:none!important}
+ .ps small{display:none}
+ .pswitch{gap:8px}.ps{padding:10px 12px;gap:10px}.ps .ic{width:34px;height:34px}.ps b{font-size:14.5px}.ps small{font-size:11.5px}
  .prod .frame{width:100%}
  .prices{grid-template-columns:1fr;align-content:start}
  .contact{grid-template-columns:1fr}
  .faq{overflow:visible}
 }
-@media (max-width:560px){.svc{grid-template-columns:1fr}.feats{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.links{grid-template-columns:1fr 1fr}.vh h2{font-size:24px}}
+@media (max-width:560px){.svc{grid-template-columns:1fr 1fr;gap:10px}.sv{padding:14px}.sv ul{display:none}.sv h3{font-size:15px}.sv p{font-size:12.5px}.feats{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.links{grid-template-columns:1fr 1fr}.vh h2{font-size:24px}}
 @media (min-width:981px) and (max-height:760px){.process{display:none}.stats{display:none}.hero .lead{margin:12px 0 18px}}
+
+/* ===== Visual layer: rich blue glow theme ===== */
+:root{--ink:#071226;--deck:rgba(255,255,255,.055);--deck2:rgba(255,255,255,.1);--edge:rgba(255,255,255,.1);--edge2:rgba(255,255,255,.2);--mute:#9fb0c6;--chrome:linear-gradient(180deg,#ffffff 0%,#e8eef5 40%,#a9b6c6 100%)}
+html,body{background:#0a1730}
+body{background:radial-gradient(1100px 700px at 88% -12%,rgba(46,125,215,.42),transparent 62%),radial-gradient(900px 650px at -5% 105%,rgba(47,214,195,.26),transparent 60%),radial-gradient(800px 520px at 45% 55%,rgba(124,92,255,.16),transparent 70%),linear-gradient(160deg,#0b1a36 0%,#0e2244 48%,#0a1830 100%);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 60% 30%,#000 0%,transparent 75%)}
+.app{position:relative}
+.rail{background:rgba(8,18,38,.5);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-color:rgba(255,255,255,.09)}
+.panel{background:var(--deck);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.hero h1,.vh h2,.amt b{background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1{font-size:clamp(30px,3.2vw,52px);font-weight:700;padding-bottom:.2em;line-height:1.3}
+.vh h2{font-weight:700}
+.btn.m,.wa{background:linear-gradient(135deg,#43e58f,#19c7b4);border:0;color:#04231a;box-shadow:0 10px 30px -10px rgba(47,214,170,.75)}
+.btn.m:hover,.wa:hover{filter:brightness(1.08);background:linear-gradient(135deg,#43e58f,#19c7b4)}
+.btn.p{box-shadow:0 10px 30px -12px rgba(255,255,255,.5)}
+.nav a[aria-current=page]{background:linear-gradient(90deg,rgba(61,220,132,.18),rgba(47,214,195,.06));box-shadow:inset 0 0 0 1px rgba(61,220,132,.25)}
+input,textarea{background:rgba(4,12,28,.55)}
+.frame{background:#06101f;border-color:rgba(255,255,255,.18)}
+.fbar{background:rgba(22,34,56,.95)}.url{background:rgba(4,12,28,.8)}
+.cd{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c);margin-inline-end:8px;vertical-align:middle}
+.chip{background:rgba(255,255,255,.04)}
+.chip[aria-pressed=true]{background:color-mix(in srgb,var(--c) 22%,transparent);color:#fff;border-color:var(--c);box-shadow:0 0 24px -6px var(--c)}
+.chip[aria-pressed=true] .n{color:#fff;opacity:.8}
+.sub a[aria-current=true]{color:#fff}
+.card .th{transition:border-color .3s,box-shadow .3s,transform .3s var(--ease)}
+.card:hover .th{border-color:var(--c);box-shadow:0 18px 40px -16px var(--c);transform:translateY(-3px)}
+.card h3::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--c);margin-inline-end:8px;vertical-align:middle}
+.sv .ic{background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c);box-shadow:0 0 28px -8px var(--c)}
+.sv .go{color:var(--c)}
+.sv.panel{background:radial-gradient(420px 220px at 100% 0%,color-mix(in srgb,var(--c) 16%,transparent),transparent 70%),var(--deck)}
+html[dir=ltr] .sv.panel{background:radial-gradient(420px 220px at 0% 0%,color-mix(in srgb,var(--c) 16%,transparent),transparent 70%),var(--deck)}
+a.sv:hover{border-color:color-mix(in srgb,var(--c) 60%,transparent);box-shadow:0 20px 50px -24px var(--c)}
+.sv li::before{background:var(--c)}
+.pc.ai .amt b{background:linear-gradient(180deg,#ffe7a8,#e3b35a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pc.ai{box-shadow:0 0 0 1px rgba(242,193,78,.25),0 30px 70px -40px rgba(242,193,78,.6)}
+.ptab[aria-selected=true]{background:linear-gradient(135deg,rgba(67,229,143,.25),rgba(25,199,180,.18));color:#fff}
+/* hero 3D stack */
+.show{width:min(100%,calc((100dvh - 360px)*1.6))}
+.stack{position:relative;perspective:1800px;padding:12% 2% 4% 16%}
+html[dir=ltr] .stack{padding:12% 16% 4% 2%}
+.stack .frame{transition:transform .8s var(--ease)}
+.stack .shot img{transition:opacity .45s}
+.stack .l1{position:relative;z-index:3;transform:rotateY(-9deg) rotateX(3deg);box-shadow:0 50px 90px -30px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.08),0 0 80px -20px rgba(69,200,255,.45)}
+.stack .l2,.stack .l3{position:absolute;inset:12% 2% 4% 16%;z-index:2;opacity:.55}
+html[dir=ltr] .stack .l2,html[dir=ltr] .stack .l3{inset:12% 16% 4% 2%}
+.stack .l2{transform:translate(-11%,-11%) rotateY(-9deg) rotateX(3deg) scale(.88);opacity:.8}
+.stack .l3{transform:translate(-21%,-21%) rotateY(-9deg) rotateX(3deg) scale(.76);opacity:.5;z-index:1}
+html[dir=ltr] .stack .l1{transform:rotateY(9deg) rotateX(3deg)}
+html[dir=ltr] .stack .l2{transform:translate(11%,-11%) rotateY(9deg) rotateX(3deg) scale(.88)}
+html[dir=ltr] .stack .l3{transform:translate(21%,-21%) rotateY(9deg) rotateX(3deg) scale(.76)}
+.stack:hover .l1{transform:rotateY(0) rotateX(0)}
+.float{position:absolute;z-index:4;display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:14px;font-size:12.5px;background:rgba(12,26,52,.72);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 16px 40px -18px rgba(0,0,0,.8);white-space:nowrap}
+.float svg{width:16px;height:16px;color:var(--mint)}
+.float b{font-size:20px;font-weight:700;background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent}
+.f-a{bottom:0;inset-inline-end:-2%}
+.f-b{top:2%;inset-inline-end:8%}
+.f-c{bottom:16%;inset-inline-start:0}
+@media (prefers-reduced-motion:no-preference){.float{animation:bob 6s ease-in-out infinite}.f-b{animation-delay:-2s}.f-c{animation-delay:-4s}@keyframes bob{50%{transform:translateY(-8px)}}}
+@media (max-width:980px){.top,.tabbar{background:rgba(8,18,38,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}.show{width:100%}.stack{padding:8% 2% 6% 8%}.float{font-size:11px;padding:7px 10px}.float b{font-size:16px}.f-c{display:none}}
 </style>
 </head>
 <body>
@@ -300,6 +373,7 @@ html[dir=rtl] .stars{justify-content:flex-start}
    <a href="#examples" data-v="examples"><svg><use href="#i-grid"/></svg><span class="ar">أمثلة المواقع</span><span class="en">Website examples</span></a>
    <div class="sub" id="railSub"></div>
    <a href="#products/ai" data-v="products"><svg><use href="#i-ai"/></svg><span class="ar">برامجنا</span><span class="en">Our software</span></a>
+   <div class="sub" id="railSub2"><a href="#products/ai" data-pp="ai">Char Ai</a><a href="#products/files" data-pp="files">Char Firm Files</a></div>
    <a href="#pricing" data-v="pricing"><svg><use href="#i-tag"/></svg><span class="ar">الأسعار</span><span class="en">Pricing</span></a>
    <a href="#contact" data-v="contact"><svg><use href="#i-chat"/></svg><span class="ar">تواصل معنا</span><span class="en">Contact</span></a>
   </nav>
@@ -327,10 +401,14 @@ html[dir=rtl] .stars{justify-content:flex-start}
      </div>
     </div>
     <div class="show">
-     <a class="frame" id="showFrame" href="#examples" aria-label="Open design">
-      <div class="fbar"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg><use href="#i-lock"/></svg><span>yourbrand.bh</span></div><span class="tag"><span class="ar">تصميم تجريبي</span><span class="en">Concept</span></span></div>
-      <div class="shot" id="showShot"></div>
-     </a>
+     <div class="stack" id="stack">
+      <div class="frame l3" aria-hidden="true"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div></div><div class="shot"><img id="sh3" alt=""></div></div>
+      <div class="frame l2" aria-hidden="true"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div></div><div class="shot"><img id="sh2" alt=""></div></div>
+      <a class="frame l1" id="showFrame" href="#examples" aria-label="Open design"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg><use href="#i-lock"/></svg><span>yourbrand.bh</span></div></div><div class="shot"><img id="sh1" alt=""></div></a>
+      <span class="float f-a"><svg><use href="#i-check"/></svg><span class="ar">دفع Benefit و Apple Pay</span><span class="en">Benefit & Apple Pay</span></span>
+      <span class="float f-b"><b id="stDesigns2">44</b><span class="ar">تصميم جاهز تختار منه</span><span class="en">designs to pick from</span></span>
+      <span class="float f-c"><svg><use href="#i-app"/></svg><span class="ar">يشتغل على الجوال</span><span class="en">Mobile ready</span></span>
+     </div>
      <div class="showcap"><span id="showName"></span><a id="showOpen" href="#examples"><span class="ar">افتح التصميم</span><span class="en">Open design</span></a></div>
     </div>
    </div>
@@ -341,12 +419,12 @@ html[dir=rtl] .stars{justify-content:flex-start}
   <section class="view" id="v-services" aria-label="Services">
    <div class="vh"><div><h2><span class="ar">شنو نسوي</span><span class="en">What we build</span></h2><p><span class="ar">كل شغلنا يبدأ بسؤال واحد: شنو اللي يضيّع وقتك أو زباينك؟</span><span class="en">Everything starts with one question: what is costing you time or customers?</span></p></div></div>
    <div class="svc">
-    <a class="sv panel" href="#examples"><div class="ic"><svg><use href="#i-web"/></svg></div><h3><span class="ar">مواقع ومتاجر أونلاين</span><span class="en">Websites & online stores</span></h3><p><span class="ar">موقع يجيب زباين ويخليهم يطلبون ويدفعون بضغطة.</span><span class="en">A site that brings customers and lets them order and pay in one tap.</span></p><ul><li><span class="ar">دفع Benefit و Apple Pay والبطاقات</span><span class="en">Benefit, Apple Pay and cards</span></li><li><span class="ar">عربي وإنجليزي وسريع على الجوال</span><span class="en">Arabic and English, fast on mobile</span></li><li><span class="ar">لوحة تحكم لك تشوف فيها الطلبات</span><span class="en">A dashboard to see your orders</span></li></ul><span class="go"><span class="ar">شوف التصاميم</span><span class="en">See designs</span></span></a>
-    <a class="sv panel" href="#contact"><div class="ic"><svg><use href="#i-app"/></svg></div><h3><span class="ar">تطبيقات وأنظمة</span><span class="en">Apps & systems</span></h3><p><span class="ar">من Excel والأوراق إلى نظام حقيقي يشتغل عنك.</span><span class="en">From Excel and paper to a real system that works for you.</span></p><ul><li><span class="ar">تطبيقات iPhone و Android</span><span class="en">iPhone and Android apps</span></li><li><span class="ar">أنظمة طلبات ومخزون وفواتير</span><span class="en">Orders, stock and invoicing systems</span></li><li><span class="ar">ربط واتساب API</span><span class="en">WhatsApp API integration</span></li></ul><span class="go"><span class="ar">اطلب عرض سعر</span><span class="en">Get a quote</span></span></a>
-    <a class="sv panel" href="#contact"><div class="ic"><svg><use href="#i-social"/></svg></div><h3><span class="ar">إدارة السوشال ميديا</span><span class="en">Social media management</span></h3><p><span class="ar">نخطط وننشر ونسوي الإعلانات، وأنت تركز على شغلك.</span><span class="en">We plan, post and run your ads while you run the business.</span></p><ul><li><span class="ar">محتوى وفيديوهات Reels</span><span class="en">Content and Reels</span></li><li><span class="ar">إعلانات ممولة بجمهور مستهدف</span><span class="en">Targeted paid ads</span></li><li><span class="ar">تقرير أداء كل شهر</span><span class="en">A monthly results report</span></li></ul><span class="go"><span class="ar">اسأل عنها</span><span class="en">Ask about it</span></span></a>
-    <a class="sv panel gold" href="#products/ai"><div class="ic"><svg><use href="#i-ai"/></svg></div><h3>Char Ai</h3><p><span class="ar">مساعد قانوني ذكي مبني على قوانين البحرين، يشتغل من المتصفح.</span><span class="en">An AI legal assistant built on Bahrain law, right in your browser.</span></p><ul><li><span class="ar">جواب مع رقم المادة والمصدر</span><span class="en">Answers with article and source</span></li><li><span class="ar">مذكرات وعقود جاهزة لـ Word</span><span class="en">Memos and contracts for Word</span></li></ul><span class="go"><span class="ar">اعرف أكثر</span><span class="en">Learn more</span></span></a>
-    <a class="sv panel gold" href="#products/files"><div class="ic"><svg><use href="#i-folder"/></svg></div><h3>Char Firm Files</h3><p><span class="ar">كل ملفات المكتب في مكان واحد آمن، بصلاحيات لكل موظف.</span><span class="en">Every office file in one secure place, with access per employee.</span></p><ul><li><span class="ar">بحث داخل الملفات في ثواني</span><span class="en">Search inside files in seconds</span></li><li><span class="ar">سجل تعديلات ونسخ سابقة</span><span class="en">Edit history and versions</span></li></ul><span class="go"><span class="ar">اعرف أكثر</span><span class="en">Learn more</span></span></a>
-    <div class="sv panel"><div class="ic"><svg><use href="#i-check"/></svg></div><h3><span class="ar">ليش Char Development</span><span class="en">Why Char Development</span></h3><ul><li><span class="ar">من البحرين، ونفهم السوق هنا</span><span class="en">Based in Bahrain, we know the market</span></li><li><span class="ar">عرض سعر خلال 24 ساعة</span><span class="en">A quote within 24 hours</span></li><li><span class="ar">كل شي بالعربي والإنجليزي</span><span class="en">Everything in Arabic and English</span></li><li><span class="ar">دعم وتحديثات بعد التسليم</span><span class="en">Support and updates after launch</span></li></ul></div>
+    <a class="sv panel" href="#examples" style="--c:#3ddc84"><div class="ic"><svg><use href="#i-web"/></svg></div><h3><span class="ar">مواقع ومتاجر أونلاين</span><span class="en">Websites & online stores</span></h3><p><span class="ar">موقع يجيب زباين ويخليهم يطلبون ويدفعون بضغطة.</span><span class="en">A site that brings customers and lets them order and pay in one tap.</span></p><ul><li><span class="ar">دفع Benefit و Apple Pay والبطاقات</span><span class="en">Benefit, Apple Pay and cards</span></li><li><span class="ar">عربي وإنجليزي وسريع على الجوال</span><span class="en">Arabic and English, fast on mobile</span></li><li><span class="ar">لوحة تحكم لك تشوف فيها الطلبات</span><span class="en">A dashboard to see your orders</span></li></ul><span class="go"><span class="ar">شوف التصاميم</span><span class="en">See designs</span></span></a>
+    <a class="sv panel" href="#contact" style="--c:#45c8ff"><div class="ic"><svg><use href="#i-app"/></svg></div><h3><span class="ar">تطبيقات وأنظمة</span><span class="en">Apps & systems</span></h3><p><span class="ar">من Excel والأوراق إلى نظام حقيقي يشتغل عنك.</span><span class="en">From Excel and paper to a real system that works for you.</span></p><ul><li><span class="ar">تطبيقات iPhone و Android</span><span class="en">iPhone and Android apps</span></li><li><span class="ar">أنظمة طلبات ومخزون وفواتير</span><span class="en">Orders, stock and invoicing systems</span></li><li><span class="ar">ربط واتساب API</span><span class="en">WhatsApp API integration</span></li></ul><span class="go"><span class="ar">اطلب عرض سعر</span><span class="en">Get a quote</span></span></a>
+    <a class="sv panel" href="#contact" style="--c:#ff6fa5"><div class="ic"><svg><use href="#i-social"/></svg></div><h3><span class="ar">إدارة السوشال ميديا</span><span class="en">Social media management</span></h3><p><span class="ar">نخطط وننشر ونسوي الإعلانات، وأنت تركز على شغلك.</span><span class="en">We plan, post and run your ads while you run the business.</span></p><ul><li><span class="ar">محتوى وفيديوهات Reels</span><span class="en">Content and Reels</span></li><li><span class="ar">إعلانات ممولة بجمهور مستهدف</span><span class="en">Targeted paid ads</span></li><li><span class="ar">تقرير أداء كل شهر</span><span class="en">A monthly results report</span></li></ul><span class="go"><span class="ar">اسأل عنها</span><span class="en">Ask about it</span></span></a>
+    <a class="sv panel" href="#products/ai" style="--c:#f2c14e"><div class="ic"><svg><use href="#i-ai"/></svg></div><h3>Char Ai</h3><p><span class="ar">مساعد قانوني ذكي مبني على قوانين البحرين، يشتغل من المتصفح.</span><span class="en">An AI legal assistant built on Bahrain law, right in your browser.</span></p><ul><li><span class="ar">جواب مع رقم المادة والمصدر</span><span class="en">Answers with article and source</span></li><li><span class="ar">مذكرات وعقود جاهزة لـ Word</span><span class="en">Memos and contracts for Word</span></li></ul><span class="go"><span class="ar">اعرف أكثر</span><span class="en">Learn more</span></span></a>
+    <a class="sv panel" href="#products/files" style="--c:#2fd6c3"><div class="ic"><svg><use href="#i-folder"/></svg></div><h3>Char Firm Files</h3><p><span class="ar">كل ملفات المكتب في مكان واحد آمن، بصلاحيات لكل موظف.</span><span class="en">Every office file in one secure place, with access per employee.</span></p><ul><li><span class="ar">بحث داخل الملفات في ثواني</span><span class="en">Search inside files in seconds</span></li><li><span class="ar">سجل تعديلات ونسخ سابقة</span><span class="en">Edit history and versions</span></li></ul><span class="go"><span class="ar">اعرف أكثر</span><span class="en">Learn more</span></span></a>
+    <div class="sv panel" style="--c:#b98bff"><div class="ic"><svg><use href="#i-check"/></svg></div><h3><span class="ar">ليش Char Development</span><span class="en">Why Char Development</span></h3><ul><li><span class="ar">من البحرين، ونفهم السوق هنا</span><span class="en">Based in Bahrain, we know the market</span></li><li><span class="ar">عرض سعر خلال 24 ساعة</span><span class="en">A quote within 24 hours</span></li><li><span class="ar">كل شي بالعربي والإنجليزي</span><span class="en">Everything in Arabic and English</span></li><li><span class="ar">دعم وتحديثات بعد التسليم</span><span class="en">Support and updates after launch</span></li></ul></div>
    </div>
    <div class="process">
     <div class="st panel"><i>1</i><div><b><span class="ar">قول لنا شنو تحتاج</span><span class="en">Tell us what you need</span></b><span><span class="ar">بالنموذج أو بالواتساب.</span><span class="en">Through the form or WhatsApp.</span></span></div></div>
@@ -358,7 +436,7 @@ html[dir=rtl] .stars{justify-content:flex-start}
   <!-- EXAMPLES -->
   <section class="view" id="v-examples" aria-label="Website examples">
    <div class="vh" id="xHead">
-    <div><h2><span class="ar">أمثلة المواقع</span><span class="en">Website examples</span></h2><p><span class="ar">تصاميم تجريبية سويناها لكل نوع بزنس. اختر القسم، افتح أي تصميم، وتنقّل بين صفحاته.</span><span class="en">Concept designs we made for every kind of business. Pick a category, open a design and move through its pages.</span></p></div>
+    <div><h2><span class="ar">أمثلة المواقع</span><span class="en">Website examples</span></h2><p><span class="ar">تصاميم سويناها لكل نوع بزنس. اختر القسم، افتح أي تصميم، وتنقّل بين صفحاته.</span><span class="en">Designs we made for every kind of business. Pick a category, open a design and move through its pages.</span></p></div>
    </div>
    <div class="chips" id="chips" role="toolbar" aria-label="Categories"></div>
    <div class="xbody" style="margin-top:16px">
@@ -374,7 +452,7 @@ html[dir=rtl] .stars{justify-content:flex-start}
      </div>
      <div class="stage" id="stage">
       <button class="arrow prev" id="dPrev" type="button" aria-label="Previous page"><svg class="flip"><use href="#i-arrow"/></svg></button>
-      <div class="frame"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg><use href="#i-lock"/></svg><span id="vUrl">yourbrand.bh</span></div><span class="tag"><span class="ar">تصميم تجريبي</span><span class="en">Concept</span></span></div><div class="shot"><img id="vImg" alt=""></div></div>
+      <div class="frame"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg><use href="#i-lock"/></svg><span id="vUrl">yourbrand.bh</span></div></div><div class="shot"><img id="vImg" alt=""></div></div>
       <button class="arrow next" id="dNext" type="button" aria-label="Next page"><svg class="flip" style="transform:none"><use href="#i-arrow"/></svg></button>
      </div>
      <div class="vfoot"><span><span class="hint"><span class="ar">اضغط على الصورة لتكبيرها. </span><span class="en">Tap the image to zoom. </span></span><span class="ar">الأسماء والمنتجات في التصاميم للعرض فقط. موقعك يطلع باسمك وهويتك.</span><span class="en">Names and products in the designs are for display only. Yours is built with your name and brand.</span></span><a class="btn m" id="vWa" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-wa"/></svg><span class="ar">أبي موقع بهالشكل</span><span class="en">I want a site like this</span></a></div>
@@ -384,9 +462,13 @@ html[dir=rtl] .stars{justify-content:flex-start}
 
   <!-- PRODUCTS -->
   <section class="view" id="v-products" aria-label="Our software">
-   <div class="vh"><div><h2><span class="ar">برامجنا</span><span class="en">Our software</span></h2></div><div class="ptoggle" role="tablist"><button type="button" role="tab" data-prod="ai">Char Ai</button><button type="button" role="tab" data-prod="files">Char Firm Files</button></div></div>
+   <div class="vh"><div><h2><span class="ar">برامجنا</span><span class="en">Our software</span></h2><p><span class="ar">برنامجين جاهزين نبيعهم ونجهزهم لك. اختر واحد تشوف تفاصيله.</span><span class="en">Two ready-made products we sell and set up for you. Pick one to see the details.</span></p></div></div>
+   <div class="pswitch" role="tablist" aria-label="Products">
+    <button type="button" role="tab" data-prod="ai" class="ps gold"><span class="ic"><svg><use href="#i-ai"/></svg></span><span><b>Char Ai</b><small><span class="ar">مساعد قانوني للمحامين في البحرين</span><span class="en">AI legal assistant for lawyers in Bahrain</span></small></span></button>
+    <button type="button" role="tab" data-prod="files" class="ps"><span class="ic"><svg><use href="#i-folder"/></svg></span><span><b>Char Firm Files</b><small><span class="ar">نظام ملفات وصلاحيات للمكاتب والشركات</span><span class="en">Files and permissions system for offices</span></small></span></button>
+   </div>
    <div class="prod" id="prod-ai">
-    <div class="frame"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg><use href="#i-lock"/></svg><span>charai.app</span></div><span class="tag"><span class="ar">بيانات تجريبية</span><span class="en">Demo data</span></span></div><div class="shot"><img src="img/s_ai.webp" alt="Char Ai" loading="lazy"></div></div>
+    <div class="frame"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg><use href="#i-lock"/></svg><span>charai.app</span></div></div><div class="shot"><img src="img/s_ai.webp" alt="Char Ai" loading="lazy"></div></div>
     <div>
      <h3><span class="ar">Char Ai للمحامين في البحرين</span><span class="en">Char Ai for lawyers in Bahrain</span></h3>
      <p class="lead"><span class="ar">يبحث ويصيغ عنك، وأنت تراجع وتقرر. يشتغل من Google Chrome أو Safari على charai.app، بدون تثبيت.</span><span class="en">It researches and drafts; you review and decide. Runs in Chrome or Safari at charai.app, nothing to install.</span></p>
@@ -402,7 +484,7 @@ html[dir=rtl] .stars{justify-content:flex-start}
     </div>
    </div>
    <div class="prod" id="prod-files">
-    <div class="frame"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg><use href="#i-lock"/></svg><span>files.yourfirm.com</span></div><span class="tag"><span class="ar">بيانات تجريبية</span><span class="en">Demo data</span></span></div><div class="shot"><img src="img/s_files.webp" alt="Char Firm Files" loading="lazy"></div></div>
+    <div class="frame"><div class="fbar"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg><use href="#i-lock"/></svg><span>files.yourfirm.com</span></div></div><div class="shot"><img src="img/s_files.webp" alt="Char Firm Files" loading="lazy"></div></div>
     <div>
      <h3><span class="ar">Char Firm Files للمكاتب والشركات</span><span class="en">Char Firm Files for offices</span></h3>
      <p class="lead"><span class="ar">بدل ما الملفات تضيع بين الواتساب والإيميل والفلاشات: نظام واحد باسم شركتك، وكل شي يلقونه في ثواني.</span><span class="en">Instead of files lost across WhatsApp, email and USB sticks: one system under your name, where everything is found in seconds.</span></p>
@@ -414,7 +496,7 @@ html[dir=rtl] .stars{justify-content:flex-start}
       <div><b><span class="ar">نسخ سابقة واسترجاع</span><span class="en">Versions and restore</span></b><span><span class="ar">ارجع لأي نسخة، واسترجع المحذوف.</span><span class="en">Go back to any version, restore deleted files.</span></span></div>
       <div><b><span class="ar">روابط للعملاء</span><span class="en">Client links</span></b><span><span class="ar">ارسل ملف أو استلم مستندات برابط.</span><span class="en">Send files or collect documents by link.</span></span></div>
      </div>
-     <div class="cta"><a class="btn m" href="https://wa.me/97333966423?text=%D8%A3%D8%A8%D9%8A%20%D8%B9%D8%B1%D8%B6%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%20%D9%84%D9%80%20Char%20Firm%20Files" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-wa"/></svg><span class="ar">احجز عرض تجريبي</span><span class="en">Book a demo</span></a></div>
+     <div class="cta"><a class="btn m" href="https://wa.me/97333966423?text=%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B9%D8%B1%D9%81%20%D8%B9%D9%86%20Char%20Firm%20Files" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-wa"/></svg><span class="ar">اطلب Char Firm Files</span><span class="en">Get Char Firm Files</span></a></div>
     </div>
    </div>
   </section>
@@ -445,7 +527,7 @@ html[dir=rtl] .stars{justify-content:flex-start}
       <li><svg><use href="#i-check"/></svg><span><span class="ar">مثال: 5 موظفين = 100 د.ب شهرياً</span><span class="en">Example: 5 staff = 100 BHD a month</span></span></li>
       <li><svg><use href="#i-check"/></svg><span><span class="ar">تدريب للفريق ودعم بعد التشغيل</span><span class="en">Team training and support</span></span></li>
      </ul>
-     <a class="btn" href="#contact" data-pick="files"><span class="ar">احجز عرض تجريبي</span><span class="en">Book a demo</span></a>
+     <a class="btn" href="#contact" data-pick="files"><span class="ar">اطلب Char Firm Files</span><span class="en">Get Char Firm Files</span></a>
     </div>
     <div class="pc panel cust">
      <span class="who"><span class="ar">مواقع، متاجر، تطبيقات، سوشال ميديا</span><span class="en">Websites, stores, apps, social media</span></span>
@@ -551,7 +633,8 @@ function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAl
 function T(a,e){return '<span class="ar">'+a+'</span><span class="en">'+e+'</span>'}
 function esc(t){var d=document.createElement('div');d.textContent=t==null?'':t;return d.innerHTML}
 var ALL=[];D.cats.forEach(function(c){c.items.forEach(function(it){it.cat=c;ALL.push(it)})});
-$('#stDesigns').textContent=ALL.length;
+$('#stDesigns').textContent=ALL.length;$('#stDesigns2').textContent=ALL.length;
+var CC={abaya:'#ff6fa5',food:'#ff9a3d',perfume:'#f2c14e',salon:'#b98bff',realestate:'#45c8ff',clinic:'#3ddc84'};
 function img(k,t){return 'img/ex/'+k+(t?'_t':'')+'.webp'}
 function byId(id){for(var i=0;i<ALL.length;i++)if(ALL[i].id===id)return ALL[i]}
 
@@ -562,8 +645,8 @@ function setLang(l){h.lang=l;h.dir=l==='ar'?'rtl':'ltr';$$('[data-lang]').forEac
 $$('[data-lang]').forEach(function(b){b.addEventListener('click',function(){setLang(h.lang==='ar'?'en':'ar')})});
 
 /* rail sub-categories + chips */
-$('#railSub').innerHTML=D.cats.map(function(c){return '<a href="#examples/'+c.id+'" data-c="'+c.id+'">'+T(c.ar,c.en)+'<span class="n">'+c.items.length+'</span></a>'}).join('');
-$('#chips').innerHTML=D.cats.map(function(c){return '<button class="chip" type="button" data-c="'+c.id+'" aria-pressed="false">'+T(c.ar,c.en)+'<span class="n">'+c.items.length+'</span></button>'}).join('');
+$('#railSub').innerHTML=D.cats.map(function(c){return '<a href="#examples/'+c.id+'" data-c="'+c.id+'" style="--c:'+CC[c.id]+'"><span><i class="cd"></i>'+T(c.ar,c.en)+'</span>'+'<span class="n">'+c.items.length+'</span></a>'}).join('');
+$('#chips').innerHTML=D.cats.map(function(c){return '<button class="chip" type="button" data-c="'+c.id+'" aria-pressed="false" style="--c:'+CC[c.id]+'"><i class="cd"></i>'+T(c.ar,c.en)+'<span class="n">'+c.items.length+'</span></button>'}).join('');
 $$('#chips .chip').forEach(function(b){b.addEventListener('click',function(){location.hash='examples/'+b.dataset.c})});
 
 /* router */
@@ -572,7 +655,7 @@ function route(){var r=decodeURIComponent(location.hash.slice(1))||'home';if(MAP
  cur={v:v,a:p[1],b:p[2],c:p[3]};
  $$('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v)});
  $$('[data-v]').forEach(function(a){if(a.dataset.v===v)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
- $('#railSub').classList.toggle('on',v==='examples');
+ $('#railSub').classList.toggle('on',v==='examples');$('#railSub2').classList.toggle('on',v==='products');
  if(v==='examples')renderExamples();
  if(v==='products')showProd(p[1]==='files'?'files':'ai');
  var t=$('#v-'+v);t.scrollTop=0;
@@ -627,12 +710,12 @@ var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(funct
 
 /* home showcase */
 var SHOW=['abaya-set-5-3-layali-arabic-dark','food-2-roast-and-rise-cafe','perfume-1-dar-al-oud-arabic','salon-1-lamsa-arabic','abaya-set-4-1-noir','realestate-1-pearlcoast-luxury'].map(byId).filter(Boolean),si=0;
-var shot=$('#showShot');shot.innerHTML=SHOW.map(function(it,i){return '<img src="'+img(it.p[0][0])+'" alt="" '+(i?'loading="lazy" ':'')+'style="opacity:'+(i?0:1)+'">'}).join('');
-function paintShow(){var it=SHOW[si];$$('img',shot).forEach(function(im,i){im.style.opacity=i===si?1:0});var u='#examples/'+it.cat.id+'/'+it.id;$('#showFrame').href=u;$('#showOpen').href=u;$('#showName').innerHTML='<b>'+T(it.ar,it.en)+'</b> <span style="margin-inline-start:8px">'+T(it.cat.ar,it.cat.en)+'</span>'}
+function paintShow(){var n=SHOW.length,it=SHOW[si];[1,2,3].forEach(function(k){var im=$('#sh'+k),x=SHOW[(si+k-1)%n],src=img(x.p[0][0]);if(im.getAttribute('src')!==src){im.style.opacity=0;setTimeout(function(){im.src=src;im.onload=function(){im.style.opacity=1}},k===1?0:180)}});
+ var u='#examples/'+it.cat.id+'/'+it.id;$('#showFrame').href=u;$('#showOpen').href=u;$('#showName').innerHTML='<i class="cd" style="--c:'+CC[it.cat.id]+'"></i><b>'+T(it.ar,it.en)+'</b> <span style="margin-inline-start:6px">'+T(it.cat.ar,it.cat.en)+'</span>'}
 paintShow();if(!reduce)setInterval(function(){if(cur.v!=='home'||document.hidden)return;si=(si+1)%SHOW.length;paintShow()},3800);
 
 /* products */
-function showProd(k){$$('.prod').forEach(function(p){p.classList.toggle('on',p.id==='prod-'+k)});$$('[data-prod]').forEach(function(b){b.setAttribute('aria-selected',b.dataset.prod===k)})}
+function showProd(k){$$('.prod').forEach(function(p){p.classList.toggle('on',p.id==='prod-'+k)});$$('[data-prod]').forEach(function(b){b.setAttribute('aria-selected',b.dataset.prod===k)});$$('#railSub2 a').forEach(function(a){a.setAttribute('aria-current',a.dataset.pp===k)})}
 $$('[data-prod]').forEach(function(b){b.onclick=function(){history.replaceState(null,'','#products/'+b.dataset.prod);showProd(b.dataset.prod)}});
 $$('[data-pick]').forEach(function(a){a.addEventListener('click',function(){var c=$('#pick-'+a.dataset.pick);if(c)c.checked=true})});
 
