@@ -4,7 +4,7 @@ const http=require('http'),fs=require('fs'),path=require('path'),crypto=require(
 const DATA=process.env.CHARDEV_DATA||'/opt/chardev/data';
 const PORT=+process.env.CHARDEV_PORT||7171;
 const CFG=path.join(DATA,'admin.json');           // {salt, hash}
-const F={ideas:path.join(DATA,'ideas.json'),reviews:path.join(DATA,'reviews.json'),stats:path.join(DATA,'stats.json')};
+const F={ideas:path.join(DATA,'ideas.json'),reviews:path.join(DATA,'reviews.json'),stats:path.join(DATA,'stats.json'),bookings:path.join(DATA,'bookings.json'),settings:path.join(DATA,'settings.json')};
 fs.mkdirSync(DATA,{recursive:true});
 function load(f){try{return JSON.parse(fs.readFileSync(f,'utf8'))}catch(e){return[]}}
 function save(f,v){const t=f+'.tmp';fs.writeFileSync(t,JSON.stringify(v,null,1));fs.renameSync(t,f)}
@@ -28,6 +28,20 @@ function track(req,e){const d=today(),o=dayObj(d),t=String(e.t||'');
  else if(t==='design'){inc(o.designs,e.p);inc(o.cats,String(e.p||'').split('-')[0])}
  else if(t==='wa'){o.wa++;inc(o.waFrom,e.p||'other')}
  else return;dirty=true}
+
+// ---- Settings: offer banner + call booking schedule ----
+const DEF_SET={offer:{on:false,ar:'',en:'',ends:'',link:''},sched:{on:true,days:[0,1,2,3,4],from:'16:00',to:'21:00',step:30,ahead:14,blocked:[]}};
+function getSet(){let s;try{s=JSON.parse(fs.readFileSync(F.settings,'utf8'))}catch(e){s={}}return{offer:Object.assign({},DEF_SET.offer,s.offer||{}),sched:Object.assign({},DEF_SET.sched,s.sched||{})}}
+function bhNow(){return new Date(Date.now()+3*3600e3)} // Bahrain clock as a UTC date
+function hm2m(t){const m=/^(\d{1,2}):(\d{2})$/.exec(String(t||''));return m?(+m[1])*60+(+m[2]):-1}
+function m2hm(m){return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
+function offerPublic(){const o=getSet().offer;if(!o.on||!(o.ar||o.en))return null;if(o.ends){const e=Date.parse(o.ends+'+03:00');if(isFinite(e)&&e<Date.now())return null}return{ar:o.ar,en:o.en,ends:o.ends?o.ends+'+03:00':'',link:o.link}}
+function freeSlots(){const sc=getSet().sched;if(!sc.on)return[];const taken=new Set(load(F.bookings).filter(b=>!b.cancelled).map(b=>b.slot));
+ const now=bhNow(),lead=now.getTime()+2*3600e3,out=[],from=hm2m(sc.from),to=hm2m(sc.to),step=Math.max(15,Math.min(120,+sc.step||30));if(from<0||to<=from)return[];
+ for(let i=0;i<Math.min(30,+sc.ahead||14);i++){const d=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()+i)),ds=d.toISOString().slice(0,10);
+  if(sc.days.indexOf(d.getUTCDay())<0||(sc.blocked||[]).indexOf(ds)>=0)continue;const t=[];
+  for(let m=from;m+15<=to;m+=step){if(d.getTime()+m*6e4<lead)continue;const k=ds+' '+m2hm(m);if(!taken.has(k))t.push(m2hm(m))}
+  if(t.length)out.push({d:ds,w:d.getUTCDay(),t})}return out}
 const sessions=new Map(); // token -> expiry
 const hits=new Map();     // ip -> [timestamps]
 function limited(ip,max,win){const now=Date.now();const a=(hits.get(ip)||[]).filter(t=>now-t<win);a.push(now);hits.set(ip,a);return a.length>max}
@@ -46,6 +60,15 @@ http.createServer(async(req,res)=>{
  try{
   if(req.method==='GET'&&(u.pathname==='/admin'||u.pathname==='/admin/')){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Frame-Options':'DENY','X-Robots-Tag':'noindex'});return res.end(ADMIN_HTML)}
   if(req.method==='POST'&&u.pathname==='/api/hit'){if(limited('H'+ip,400,3600e3))return send(res,204,{});let e={};try{e=JSON.parse(await body(req,2000))}catch(x){}track(req,e);res.writeHead(204);return res.end()}
+  if(req.method==='GET'&&u.pathname==='/api/site')return send(res,200,{offer:offerPublic()},{'Cache-Control':'no-cache'});
+  if(req.method==='GET'&&u.pathname==='/api/slots')return send(res,200,{days:freeSlots()});
+  if(req.method==='POST'&&u.pathname==='/api/book'){
+   if(limited('B'+ip,6,3600e3))return send(res,429,{ok:false});
+   const d=parse(req,await body(req));if(d['bot-field'])return send(res,200,{ok:true});
+   const slot=clip(d.slot,16),name=clip(d.name,120),phone=clip(d.phone,40);if(!name||!phone)return send(res,400,{ok:false});
+   const ok=freeSlots().some(x=>x.t.some(t=>x.d+' '+t===slot));if(!ok)return send(res,409,{ok:false,msg:'taken'});
+   const a=load(F.bookings);a.unshift({id:crypto.randomBytes(6).toString('hex'),at:new Date().toISOString(),slot,name,phone,topic:clip(d.topic,1000),done:false});save(F.bookings,a.slice(0,5000));
+   dayObj(today()).calls=(dayObj(today()).calls||0)+1;dirty=true;return send(res,200,{ok:true})}
   if(req.method==='GET'&&u.pathname==='/api/reviews'){return send(res,200,load(F.reviews).filter(r=>r.status==='approved').map(r=>({stars:r.stars,text:r.text,name:r.name,biz:r.biz})),{'Cache-Control':'public, max-age=60'})}
   if(req.method==='POST'&&(u.pathname==='/api/idea'||u.pathname==='/api/review')){
    if(limited(ip,8,3600e3))return send(res,429,{ok:false});
@@ -62,11 +85,15 @@ http.createServer(async(req,res)=>{
    return send(res,200,{ok:true},{'Set-Cookie':`cd_admin=${t}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=604800`})}
   if(u.pathname.startsWith('/api/admin/')){
    if(!authed(req))return send(res,401,{ok:false});
-   if(req.method==='GET'&&u.pathname==='/api/admin/data')return send(res,200,{ideas:load(F.ideas),reviews:load(F.reviews),stats:ST.days,today:today()});
+   if(req.method==='GET'&&u.pathname==='/api/admin/data')return send(res,200,{ideas:load(F.ideas),reviews:load(F.reviews),stats:ST.days,today:today(),bookings:load(F.bookings),settings:getSet()});
+   if(req.method==='POST'&&u.pathname==='/api/admin/settings'){let d={};try{d=JSON.parse(await body(req,20000))}catch(e){return send(res,400,{ok:false})}const cur=getSet();
+    if(d.offer){const o=d.offer;cur.offer={on:!!o.on,ar:clip(o.ar,200),en:clip(o.en,200),ends:/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(o.ends||'')?o.ends:'',link:clip(o.link,300)}}
+    if(d.sched){const c=d.sched;cur.sched={on:!!c.on,days:(Array.isArray(c.days)?c.days:[]).map(Number).filter(x=>x>=0&&x<=6),from:hm2m(c.from)>=0?c.from:'16:00',to:hm2m(c.to)>=0?c.to:'21:00',step:[15,30,45,60].indexOf(+c.step)>=0?+c.step:30,ahead:Math.max(1,Math.min(30,+c.ahead||14)),blocked:(Array.isArray(c.blocked)?c.blocked:[]).filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x)).slice(0,100)}}
+    save(F.settings,cur);return send(res,200,{ok:true,settings:cur})}
    if(req.method==='POST'&&u.pathname==='/api/admin/logout'){sessions.delete(cookie(req,'cd_admin'));return send(res,200,{ok:true},{'Set-Cookie':'cd_admin=; Path=/; Max-Age=0'})}
    if(req.method==='POST'&&u.pathname==='/api/admin/action'){
-    const d=parse(req,await body(req,2000));const kind=d.kind==='idea'?'ideas':'reviews';const a=load(F[kind]);const i=a.findIndex(x=>x.id===d.id);if(i<0)return send(res,404,{ok:false});
-    if(d.op==='delete')a.splice(i,1);else if(kind==='reviews'&&(d.op==='approve'||d.op==='hide'))a[i].status=d.op==='approve'?'approved':'pending';else if(kind==='ideas'&&d.op==='done')a[i].done=!a[i].done;else return send(res,400,{ok:false});
+    const d=parse(req,await body(req,2000));const kind=d.kind==='idea'?'ideas':d.kind==='booking'?'bookings':'reviews';const a=load(F[kind]);const i=a.findIndex(x=>x.id===d.id);if(i<0)return send(res,404,{ok:false});
+    if(d.op==='delete')a.splice(i,1);else if(kind==='reviews'&&(d.op==='approve'||d.op==='hide'))a[i].status=d.op==='approve'?'approved':'pending';else if((kind==='ideas'||kind==='bookings')&&d.op==='done')a[i].done=!a[i].done;else return send(res,400,{ok:false});
     save(F[kind],a);return send(res,200,{ok:true})}
   }
   send(res,404,{ok:false});

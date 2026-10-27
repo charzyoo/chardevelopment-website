@@ -242,7 +242,7 @@ html[dir=rtl] .lk b{text-align:right}
 .faq p{color:var(--mute);font-size:13px;line-height:1.65;margin-top:8px}
 .copy{font-size:11.5px;color:#5f6a77;text-align:center}
 /* review dialog */
-dialog{background:var(--deck);color:var(--paper);border:1px solid var(--edge2);border-radius:18px;padding:0;width:min(520px,calc(100vw - 32px))}
+dialog{background:#0f1f3d;box-shadow:0 40px 100px -30px #000;color:var(--paper);border:1px solid var(--edge2);border-radius:18px;padding:0;width:min(520px,calc(100vw - 32px))}
 dialog::backdrop{background:rgba(5,7,10,.75)}
 dialog form{padding:22px;display:flex;flex-direction:column;gap:12px}
 .dh{display:flex;justify-content:space-between;align-items:center}
@@ -483,6 +483,34 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
 .pback{margin-bottom:12px;display:none}
 #v-products.det .pgrid{display:none}#v-products.det .pback{display:inline-flex}
 #v-products.det .vh p,#v-products.det .psearch{display:none}
+
+/* offer banner */
+.offer{position:absolute;top:0;left:0;right:0;z-index:5;height:44px;display:flex;align-items:center;justify-content:center;gap:12px;padding:0 50px;font-size:14px;background:linear-gradient(90deg,rgba(255,111,165,.22),rgba(242,193,78,.22),rgba(69,200,255,.22));border-bottom:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px)}
+.offer[hidden]{display:none}
+.offer .oi{color:#ffb347;display:grid}.offer .oi svg{width:18px;height:18px}
+@media (prefers-reduced-motion:no-preference){.offer .oi{animation:flick 1.6s ease-in-out infinite}@keyframes flick{50%{transform:scale(1.15) rotate(-6deg)}}}
+.offer .ot{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.offer .oc{font-variant-numeric:tabular-nums;font-weight:600;background:rgba(0,0,0,.3);border-radius:8px;padding:3px 9px;font-size:13px;white-space:nowrap}
+.offer .og{background:#fff;color:#071226;font-weight:600;border-radius:9px;padding:6px 12px;font-size:13px;white-space:nowrap}
+.offer .ox{position:absolute;inset-inline-end:12px;width:28px;height:28px;border-radius:50%;color:#cfd6de}
+.hasoffer .view{top:44px}
+@media (max-width:980px){.offer{height:auto;min-height:40px;padding:6px 40px 6px 12px;font-size:12.5px;gap:8px;flex-wrap:wrap}.offer .oc{font-size:11.5px}.hasoffer .view{top:var(--oh,52px)}}
+/* booking */
+.bookcard{display:flex;align-items:center;gap:14px;text-align:start;padding:16px;border-color:rgba(61,220,132,.35);background:linear-gradient(135deg,rgba(67,229,143,.14),rgba(25,199,180,.06))}
+.bookcard:hover{border-color:var(--mint)}
+.bookcard .bi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#43e58f,#19c7b4);color:#04231a;flex:none}
+.bookcard .bi svg{width:22px;height:22px}.bookcard b{display:block;font-size:15px;font-weight:600}.bookcard small{color:var(--mute);font-size:12.5px}
+.bookcard .go{width:18px;height:18px;margin-inline-start:auto;color:var(--mint)}
+#callDlg{width:min(560px,calc(100vw - 32px))}
+.cdays{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.cday{flex:none;display:flex;flex-direction:column;align-items:center;min-width:64px;padding:8px 6px;border-radius:12px;border:1px solid var(--edge2);font-size:12px;color:var(--mute)}
+.cday b{font-size:18px;color:var(--paper);font-weight:600}
+.cday[aria-pressed=true]{border-color:var(--mint);background:rgba(61,220,132,.14);color:#fff}
+.ctimes{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:12px;max-height:220px;overflow:auto}
+.ctime{padding:9px 0;border-radius:10px;border:1px solid var(--edge2);font-size:14px;font-variant-numeric:tabular-nums}
+.ctime:hover{border-color:var(--mint);background:rgba(61,220,132,.1)}
+.csel{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(61,220,132,.12);border:1px solid rgba(61,220,132,.3);font-size:14px}
+.cmsg{color:var(--mute);font-size:14px;line-height:1.7;padding:12px 0}
 </style>
 </head>
 <body>
@@ -504,6 +532,8 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
  <symbol id="i-heart" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.5 1.2 4.3 2.4h2c.8-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z"/></symbol>
  <symbol id="i-cmp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="7.5" height="14" rx="1.5"/><rect x="13.5" y="5" width="7.5" height="14" rx="1.5"/></symbol>
  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
+ <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+ <symbol id="i-fire" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s5 4.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 1-3.5S9 11 11 11c0-4 1-9 1-9zm0 20a7 7 0 0 0 7-7c0-2-.6-3.6-1.4-4.9C17 14 15 16 12 16s-4.4-1.6-4.9-3.4C6.4 13.6 5 14.6 5 15a7 7 0 0 0 7 7z"/></symbol>
  <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></symbol>
 </svg>
 <div id="intro" aria-hidden="true"><div class="lg"><div class="mk"></div><div class="wm">CHAR<small>DEVELOPMENT</small></div></div></div>
@@ -533,6 +563,7 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
  </aside>
 
  <main id="main">
+  <div class="offer" id="offer" hidden><span class="oi"><svg><use href="#i-fire"/></svg></span><span class="ot" id="offerT"></span><span class="oc" id="offerC" dir="ltr"></span><a class="og" id="offerGo" target="_blank" rel="noopener"><span class="ar">اطلبه الحين</span><span class="en">Get it now</span></a><button class="ox" type="button" id="offerX" aria-label="Close">✕</button></div>
   <!-- HOME -->
   <section class="view" id="v-home" aria-label="Home">
    <div class="hero">
@@ -541,7 +572,7 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
      <p class="lead"><span class="ar">مواقع ومتاجر بدفع أونلاين، تطبيقات وأنظمة، وإدارة سوشال ميديا. ومن برامجنا Char Ai للمحامين و Char Firm Files للمكاتب. عرض سعر خلال 24 ساعة.</span><span class="en">Websites and stores with online payment, apps and systems, and social media management. Plus our own software: Char Ai for lawyers and Char Firm Files for offices. A quote within 24 hours.</span></p>
      <div class="cta">
       <a class="btn p" href="#examples"><span class="ar">شوف تصاميم المواقع</span><span class="en">See website designs</span></a>
-      <a class="btn" href="#contact"><span class="ar">قول لنا فكرتك</span><span class="en">Tell us your idea</span></a>
+      <button class="btn" type="button" data-book><svg width="16" height="16"><use href="#i-cal"/></svg><span class="ar">احجز مكالمة مجانية</span><span class="en">Book a free call</span></button>
      </div>
      <div class="stats">
       <div><b id="stDesigns">44</b><span class="ar">تصميم موقع</span><span class="en">website designs</span></div>
@@ -728,6 +759,7 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
      <div class="ok" id="ok"><b><span class="ar">وصلتنا فكرتك ✓</span><span class="en">We got your idea ✓</span></b> <span class="ar">بنتواصل معاك خلال 24 ساعة. تبي رد أسرع؟</span><span class="en">We'll contact you within 24 hours. Want a faster reply?</span> <a id="okwa" href="https://wa.me/97333966423" target="_blank" rel="noopener"><span class="ar">راسلنا واتساب</span><span class="en">WhatsApp us</span></a></div>
     </form>
     <div class="side">
+     <button class="bookcard panel" type="button" data-book><span class="bi"><svg><use href="#i-cal"/></svg></span><span><b><span class="ar">احجز مكالمة مجانية 15 دقيقة</span><span class="en">Book a free 15-minute call</span></b><small><span class="ar">اختر الوقت اللي يناسبك ونتصل فيك</span><span class="en">Pick a time that suits you and we call you</span></small></span><svg class="go flip" style="transform:none"><use href="#i-arrow"/></svg></button>
      <div class="links">
       <a class="lk panel" href="https://wa.me/97333966423" target="_blank" rel="noopener"><span class="ar">واتساب</span><span class="en">WhatsApp</span><b>+973 3396 6423</b></a>
       <a class="lk panel" href="https://www.instagram.com/char_._devlopment/" target="_blank" rel="noopener">Instagram<b>@char_._devlopment</b></a>
@@ -760,6 +792,23 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
 <div id="bub" role="dialog" aria-label="WhatsApp"><div class="bh"><span class="av"><img src="img/mark.png" alt=""></span><div><b>Char Development</b><small><span class="ar">متصل الحين، نرد بسرعة</span><span class="en">Online now, quick replies</span></small></div><button class="bx" type="button" id="bubX" aria-label="Close">✕</button></div><div class="msg" id="bubMsg"></div><a class="wa" id="bubGo" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg><span class="ar">رد على واتساب</span><span class="en">Reply on WhatsApp</span></a></div>
 <div class="zoom" id="zoom"><img id="zImg" alt=""></div>
 
+<dialog id="callDlg" aria-label="Book a call">
+ <form id="callForm" method="dialog">
+  <input type="hidden" name="form-name" value="call"><p hidden><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+  <div class="dh"><h3><span class="ar">احجز مكالمة مجانية 15 دقيقة</span><span class="en">Book a free 15-minute call</span></h3><button class="x" type="button" id="callClose" aria-label="Close">✕</button></div>
+  <div id="callStep1">
+   <p class="fine" style="margin:0 0 4px"><span class="ar">اختر اليوم والوقت (بتوقيت البحرين)</span><span class="en">Pick a day and time (Bahrain time)</span></p>
+   <div class="cdays" id="cDays"></div><div class="ctimes" id="cTimes"></div>
+  </div>
+  <div id="callStep2" hidden>
+   <div class="csel" id="cSel"></div>
+   <div class="row2"><label class="l"><span><span class="ar">الاسم</span><span class="en">Name</span></span><input name="name" required autocomplete="name"></label><label class="l"><span><span class="ar">رقم الجوال / واتساب</span><span class="en">Phone / WhatsApp</span></span><input name="phone" required inputmode="tel" autocomplete="tel" dir="ltr" placeholder="+973 3xxx xxxx"></label></div>
+   <label class="l"><span><span class="ar">عن شنو تبي تتكلم؟ (اختياري)</span><span class="en">What would you like to talk about? (optional)</span></span><textarea name="topic" style="min-height:70px"></textarea></label>
+   <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn m" type="submit" id="callBtn"><span class="ar">ثبّت الموعد</span><span class="en">Confirm booking</span></button><button class="btn" type="button" id="callBackB"><span class="ar">غيّر الوقت</span><span class="en">Change time</span></button></div>
+  </div>
+  <div class="ok" id="callOk"></div>
+ </form>
+</dialog>
 <dialog id="revDlg">
  <form id="revForm" method="POST" action="/thanks.html">
   <input type="hidden" name="form-name" value="review">
@@ -953,6 +1002,41 @@ paintFav();paintTray();
 function normQ(t){return String(t||'').toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').trim()}
 (function(){var q=$('#xSearch'),tm;q.addEventListener('input',function(){clearTimeout(tm);tm=setTimeout(function(){XQ=q.value.trim();page=0;if(cur.a!=='all'&&cur.a!=='favs'&&XQ&&!catOf(cur.a)){}renderExamples()},120)});
  function ph(){q.placeholder=h.lang==='ar'?'ابحث: عبايات، كافيه، عود، حلاق…':'Search: abaya, café, oud, barber…'}ph();new MutationObserver(ph).observe(h,{attributes:true,attributeFilter:['lang']})})();
+
+/* offer banner */
+(function(){var o=$('#offer'),O=null,tm=null,closed=false;try{closed=sessionStorage.getItem('offerX')==='1'}catch(e){}
+ function fit(){var hgt=o.offsetHeight||44;h.style.setProperty('--oh',hgt+'px')}
+ function paint(){if(!O||closed){o.hidden=true;h.classList.remove('hasoffer');return}var ar=h.lang==='ar';$('#offerT').textContent=ar?(O.ar||O.en):(O.en||O.ar);
+  var g=$('#offerGo'),ln=O.link||'';if(ln.charAt(0)==='#'){g.href=ln;g.removeAttribute('target')}else if(/^https?:/.test(ln)){g.href=ln;g.target='_blank'}else{g.href=WA+'?text='+encodeURIComponent((ar?'هلا، أبي العرض: ':'Hi, I want the offer: ')+(O.ar||O.en));g.target='_blank'}
+  o.hidden=false;h.classList.add('hasoffer');tick();fit()}
+ function tick(){var c=$('#offerC');if(!O||!O.ends){c.style.display='none';return}var ms=Date.parse(O.ends)-Date.now();if(!(ms>0)){O=null;paint();return}c.style.display='';
+  var d=Math.floor(ms/864e5),hh=Math.floor(ms%864e5/36e5),mm=Math.floor(ms%36e5/6e4),ss=Math.floor(ms%6e4/1e3),p=function(n){return n<10?'0'+n:''+n};
+  c.textContent=(d?(d+(h.lang==='ar'?' يوم  ':'d  ')):'')+p(hh)+':'+p(mm)+':'+p(ss)}
+ $('#offerX').onclick=function(){closed=true;try{sessionStorage.setItem('offerX','1')}catch(e){}paint()};
+ fetch('/api/site').then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.offer){O=j.offer;paint();tm=setInterval(tick,1000)}}).catch(function(){});
+ new MutationObserver(function(){if(O)paint()}).observe(h,{attributes:true,attributeFilter:['lang']});addEventListener('resize',fit)})();
+/* call booking */
+(function(){var dlg=$('#callDlg'),f=$('#callForm'),DAYS=null,sel=null,curD=0;
+ var WDa=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],WDe=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+ function t12(t){var p=t.split(':'),H=+p[0],ar=h.lang==='ar';return ((H%12)||12)+':'+p[1]+' '+(H<12?(ar?'ص':'AM'):(ar?'م':'PM'))}
+ function step(n){$('#callStep1').hidden=n!==1;$('#callStep2').hidden=n!==2}
+ function none(msg){$('#cDays').innerHTML='';$('#cTimes').innerHTML='<div class="cmsg" style="grid-column:1/-1">'+msg+' <a href="'+WA+'?text='+encodeURIComponent(h.lang==='ar'?'هلا، أبي أحجز مكالمة':'Hi, I want to book a call')+'" target="_blank" rel="noopener" style="color:var(--mint)">'+T('راسلنا واتساب','WhatsApp us')+'</a></div>'}
+ function paintDays(){if(!DAYS)return;if(!DAYS.length){none(T('ما في أوقات فاضية هالأيام.','No free times right now.'));return}
+  $('#cDays').innerHTML=DAYS.map(function(d,i){var ar=h.lang==='ar';return '<button type="button" class="cday" data-i="'+i+'" aria-pressed="'+(i===curD)+'"><span>'+(ar?WDa[d.w]:WDe[d.w])+'</span><b>'+(+d.d.slice(8))+'</b><span>'+d.d.slice(5,7)+'/'+d.d.slice(8)+'</span></button>'}).join('');
+  $$('#cDays .cday').forEach(function(b){b.onclick=function(){curD=+b.dataset.i;paintDays()}});
+  var d=DAYS[curD];$('#cTimes').innerHTML=d.t.map(function(t){return '<button type="button" class="ctime" data-t="'+t+'">'+t12(t)+'</button>'}).join('');
+  $$('#cTimes .ctime').forEach(function(b){b.onclick=function(){sel=d.d+' '+b.dataset.t;var ar=h.lang==='ar';$('#cSel').innerHTML='<svg width="18" height="18"><use href="#i-cal"/></svg><span>'+(ar?WDa[d.w]:WDe[d.w])+' '+d.d.slice(8)+'/'+d.d.slice(5,7)+(ar?' الساعة ':' at ')+t12(b.dataset.t)+'</span>';step(2);var n=f.querySelector('[name=name]');if(n)n.focus()}})}
+ function load(){DAYS=null;sel=null;curD=0;step(1);$('#callOk').classList.remove('on');$('#cTimes').innerHTML='<div class="cmsg" style="grid-column:1/-1">…</div>';$('#cDays').innerHTML='';
+  fetch('/api/slots').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){DAYS=j.days||[];paintDays()}).catch(function(){none(T('الحجز مو متاح الحين.','Booking is not available right now.'))})}
+ function open(){load();if(dlg.showModal)dlg.showModal();else dlg.setAttribute('open','')}
+ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-book]');if(b){e.preventDefault();open()}});
+ $('#callClose').onclick=function(){dlg.close()};$('#callBackB').onclick=function(){step(1)};
+ f.addEventListener('submit',function(ev){ev.preventDefault();if(!sel)return;var fd=new FormData(f);fd.append('slot',sel);var btn=$('#callBtn');btn.disabled=true;
+  fetch('/api/book',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()}).then(function(r){btn.disabled=false;
+   if(r.status===409){load();$('#callOk').innerHTML=T('هالوقت انحجز قبل شوي، اختر وقت ثاني.','That time was just taken, please pick another.');$('#callOk').classList.add('on');return}
+   if(!r.ok)throw 0;step(0);$('#callOk').innerHTML='<b>'+T('تم حجز المكالمة ✓','Your call is booked ✓')+'</b><br>'+$('#cSel').textContent+'. '+T('بنتصل فيك على رقمك في الوقت هذا.','We will call you on your number at this time.');$('#callOk').classList.add('on');f.reset();hit('book','call')})
+  .catch(function(){btn.disabled=false;var ar=h.lang==='ar',t=(ar?'هلا، أبي أحجز مكالمة: ':'Hi, I want to book a call: ')+$('#cSel').textContent+'\n'+fd.get('name')+' '+fd.get('phone')+(fd.get('topic')?'\n'+fd.get('topic'):'');window.open(WA+'?text='+encodeURIComponent(t),'_blank')})});
+})();
 /* product search */
 (function(){var q=$('#pSearch');function norm(t){return String(t||'').toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي')}
  function run(){var v=norm(q.value.trim()),vis=[];$$('.pt').forEach(function(b){var ok=!v||norm(b.textContent+' '+(b.dataset.k||'')).indexOf(v)>=0;b.classList.toggle('hide',!ok);if(ok)vis.push(b)});
