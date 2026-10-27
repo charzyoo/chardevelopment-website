@@ -1,0 +1,76 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>لوحة التحكم | Char Development</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almarai:wght@700;800&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#0b0e13;--bg2:#121820;--card:#161d27;--line:#253040;--fg:#f4f6f8;--mu:#9aa6b3;--acc:#3ddc84;--gold:#e3c58a;--red:#ff6b6b}
+*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:var(--bg);color:var(--fg);font-family:Tajawal,system-ui,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 60px}
+h1,h2{font-family:Almarai,Tajawal,sans-serif;margin:0}
+.top{display:flex;align-items:center;gap:14px;margin-bottom:22px}.top h1{font-size:26px;margin-inline-end:auto}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--fg);padding:9px 14px;font-weight:700}
+button.p{background:var(--acc);color:#06130d;border-color:var(--acc)}button.d{color:var(--red)}button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.tabs{display:flex;gap:8px;margin-bottom:18px}.tabs button[aria-selected=true]{background:var(--acc);color:#06130d;border-color:var(--acc)}
+.badge{display:inline-block;min-width:22px;padding:1px 7px;border-radius:99px;background:var(--gold);color:#2b2112;font-size:13px;margin-inline-start:6px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:12px}
+.item.done{opacity:.55}.meta{color:var(--mu);font-size:14px;display:flex;flex-wrap:wrap;gap:6px 16px;margin:6px 0 10px}
+.txt{white-space:pre-wrap;line-height:1.7}.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.st{color:var(--gold);letter-spacing:2px}.pill{font-size:12px;border-radius:99px;padding:2px 9px;border:1px solid var(--line)}.pill.ok{color:var(--acc);border-color:rgba(61,220,132,.4)}.pill.wait{color:var(--gold);border-color:rgba(227,197,138,.4)}
+.login{max-width:380px;margin:12vh auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;display:grid;gap:14px}
+input{font:inherit;color:var(--fg);background:#0c1118;border:1px solid var(--line);border-radius:12px;padding:13px 14px;width:100%}input:focus{border-color:var(--acc);outline:none}
+.err{color:var(--red);min-height:1.2em}.empty{color:var(--mu);text-align:center;padding:40px 0}a{color:var(--acc)}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}.kpi b{display:block;font-size:28px;font-family:Almarai,sans-serif}.kpi span{color:var(--mu);font-size:13px}
+.range{display:flex;gap:6px;margin-bottom:14px}.range button[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}.bars{display:flex;align-items:flex-end;gap:4px;height:140px;direction:ltr}.bars div{flex:1;background:linear-gradient(180deg,#43e58f,#19c7b4);border-radius:4px 4px 0 0;min-height:2px;position:relative}.bars div:hover::after{content:attr(data-t);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#000;padding:3px 7px;border-radius:6px;font-size:12px;white-space:nowrap}
+.blabels{display:flex;gap:4px;direction:ltr;color:var(--mu);font-size:10px;margin-top:4px}.blabels span{flex:1;text-align:center;overflow:hidden}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}.box h3{margin:0 0 10px;font-size:15px;font-family:Almarai,sans-serif}.row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}.row:last-child{border:0}.row i{font-style:normal;color:var(--mu);font-size:12px}.row b{color:var(--acc)}
+@media(max-width:800px){.kpis{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}}
+</style></head><body>
+<div id="login" class="login" hidden><h2>لوحة التحكم</h2><p style="margin:0;color:var(--mu)">الأفكار والتقييمات اللي توصل من الموقع.</p>
+<input id="us" type="text" placeholder="اسم المستخدم" autocomplete="username" autocapitalize="none" dir="ltr"><input id="pw" type="password" placeholder="كلمة المرور" autocomplete="current-password"><button class="p" id="go">دخول</button><div class="err" id="err"></div></div>
+<div id="app" class="wrap" hidden>
+ <div class="top"><h1>لوحة التحكم</h1><button id="ref">تحديث</button><button id="out">خروج</button></div>
+ <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="stats">الزوار</button><button role="tab" aria-selected="false" data-t="ideas">الأفكار<span class="badge" id="nI">0</span></button><button role="tab" aria-selected="false" data-t="reviews">التقييمات<span class="badge" id="nR">0</span></button></div>
+ <div id="list"></div>
+</div>
+<script>
+(function(){var D={ideas:[],reviews:[],stats:{}},tab='stats',RG=7;var NM={"abaya-set-5-3-layali-arabic-dark": ["ليالي", "عبايات وأزياء"], "abaya-version-1-pearl-diver": ["لؤلؤ", "عبايات وأزياء"], "abaya-set-4-1-noir": ["نوار", "عبايات وأزياء"], "abaya-set-5-6-sadu-arabic": ["سدو", "عبايات وأزياء"], "abaya-set-5-1-atelier": ["أتيليه", "عبايات وأزياء"], "abaya-set-3-1-classic": ["كلاسيك", "عبايات وأزياء"], "abaya-set-4-2-rose-arabic": ["روز", "عبايات وأزياء"], "abaya-set-5-2-bento": ["بينتو", "عبايات وأزياء"], "abaya-set-5-4-souq-arabic-marketplace": ["سوق", "عبايات وأزياء"], "abaya-set-5-5-shop-the-look": ["اللوك", "عبايات وأزياء"], "abaya-version-2-bold-color-block": ["ألوان", "عبايات وأزياء"], "abaya-set-4-3-navy": ["كحلي", "عبايات وأزياء"], "abaya-set-4-5-mulberry": ["توتي", "عبايات وأزياء"], "abaya-set-4-4-heritage-arabic": ["تراث ٢", "عبايات وأزياء"], "abaya-set-3-4-heritage-arabic": ["تراث", "عبايات وأزياء"], "abaya-set-3-2-soft-arabic": ["ناعم", "عبايات وأزياء"], "abaya-set-3-3-minimal": ["مينيمال", "عبايات وأزياء"], "abaya-set-3-5-editorial": ["مجلة", "عبايات وأزياء"], "food-1-bait-al-machboos-arabic": ["مطعم شعبي", "مطاعم ومقاهي"], "food-2-roast-and-rise-cafe": ["كافيه", "مطاعم ومقاهي"], "food-3-sukkar-cake-studio-arabic": ["استوديو كيك", "مطاعم ومقاهي"], "food-4-fitplate-meal-plans": ["وجبات صحية", "مطاعم ومقاهي"], "food-5-fahm-grill-delivery": ["مشويات وتوصيل", "مطاعم ومقاهي"], "w_coffee": ["قهوة مختصة", "مطاعم ومقاهي"], "w_bakery": ["مخبز", "مطاعم ومقاهي"], "w_cake": ["محل كيك", "مطاعم ومقاهي"], "w_burger": ["مطعم برجر", "مطاعم ومقاهي"], "perfume-1-dar-al-oud-arabic": ["دار عود", "عطور وعود"], "perfume-2-notes-and-nuance": ["عطور نيش", "عطور وعود"], "perfume-3-hadiya-gift-box": ["صندوق هدايا", "عطور وعود"], "perfume-4-bukhoor-al-dar-arabic": ["بخور", "عطور وعود"], "perfume-5-scentprint-quiz": ["اختبار العطر", "عطور وعود"], "salon-1-lamsa-arabic": ["صالون نسائي", "صالونات وتجميل"], "salon-2-polish-lab-nails": ["صالون أظافر", "صالونات وتجميل"], "salon-3-zaffa-bridal-arabic": ["تجهيز عرايس", "صالونات وتجميل"], "salon-4-fade-district-barber": ["حلاق رجالي", "صالونات وتجميل"], "salon-5-sakoon-home-spa": ["سبا منزلي", "صالونات وتجميل"], "realestate-1-pearlcoast-luxury": ["عقارات فاخرة", "عقارات"], "realestate-2-rentwise-mapsearch": ["إيجارات", "عقارات"], "realestate-3-seefline-offplan": ["مشروع سكني", "عقارات"], "realestate-4-baitalayla-arabic": ["بيت العائلة", "عقارات"], "realestate-5-iqama-serviced-arabic": ["شقق مخدومة", "عقارات"], "w_gym": ["نادي رياضي", "عيادات ونوادي"], "w_dental": ["عيادة أسنان", "عيادات ونوادي"]},CN={"abaya": "عبايات وأزياء", "food": "مطاعم ومقاهي", "perfume": "عطور وعود", "salon": "صالونات وتجميل", "realestate": "عقارات", "clinic": "عيادات ونوادي"};
+function $(i){return document.getElementById(i)}
+function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+function when(s){try{return new Date(s).toLocaleString('ar-BH',{dateStyle:'medium',timeStyle:'short'})}catch(e){return s}}
+function api(p,o){return fetch(p,Object.assign({credentials:'same-origin'},o||{})).then(function(r){if(r.status===401){show(false);throw 0}return r.json()})}
+function show(ok){$('login').hidden=ok;$('app').hidden=!ok;if(!ok)$('us').focus()}
+function load(){return api('/api/admin/data').then(function(d){D=d;D.stats=D.stats||{};show(true);render()})}
+function act(kind,id,op){if(op==='delete'&&!confirm('متأكد تبي تحذفه؟'))return;
+  api('/api/admin/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:kind,id:id,op:op})}).then(load)}
+window.cdAct=act;
+function wa(p){var n=String(p||'').replace(/[^0-9]/g,'');if(n.length===8)n='973'+n;return n?'https://wa.me/'+n:''}
+
+var PG={home:'الرئيسية',services:'خدماتنا',examples:'أمثلة المواقع',products:'برامجنا',pricing:'الأسعار',contact:'تواصل معنا'};
+var SRC={direct:'مباشر / رابط',instagram:'Instagram','l.instagram.com':'Instagram','instagram.com':'Instagram','google.com':'Google','facebook.com':'Facebook','l.facebook.com':'Facebook','m.facebook.com':'Facebook','t.co':'X / Twitter','tiktok.com':'TikTok','wa.me':'WhatsApp',whatsapp:'WhatsApp',ig:'Instagram',fb:'Facebook',meta:'إعلانات Meta'};
+var WF={design:'من صفحة تصميم',rail:'زر القائمة',top:'زر أعلى الجوال',contact:'صفحة التواصل',products:'برامجنا',other:'أزرار ثانية'};
+function days(n){var out=[],t=new Date((D.today||new Date().toISOString().slice(0,10))+'T12:00:00Z');for(var i=n-1;i>=0;i--){var x=new Date(t-i*864e5).toISOString().slice(0,10);out.push(x)}return out}
+function sum(ds,k){return ds.reduce(function(a,d){var o=D.stats[d];return a+(o&&o[k]||0)},0)}
+function merge(ds,k){var m={};ds.forEach(function(d){var o=D.stats[d]&&D.stats[d][k];if(o)for(var x in o)m[x]=(m[x]||0)+o[x]});return Object.keys(m).map(function(x){return[x,m[x]]}).sort(function(a,b){return b[1]-a[1]})}
+function list(t,rows,lab){return '<div class="box"><h3>'+t+'</h3>'+(rows.length?rows.slice(0,8).map(function(r){return '<div class="row"><span>'+lab(r[0])+'</span><b>'+r[1]+'</b></div>'}).join(''):'<div class="row"><i>ما في بيانات للحين</i></div>')+'</div>'}
+function renderStats(L){var ds=days(RG),cd=days(RG===1?14:RG);
+ var mx=Math.max(1,Math.max.apply(null,cd.map(function(d){return D.stats[d]&&D.stats[d].u||0})));
+ L.innerHTML='<div class="range">'+[[1,'اليوم'],[7,'آخر 7 أيام'],[30,'آخر 30 يوم'],[90,'آخر 3 شهور']].map(function(r){return '<button type="button" data-r="'+r[0]+'" aria-pressed="'+(RG===r[0])+'">'+r[1]+'</button>'}).join('')+'</div>'+
+ '<div class="kpis"><div class="kpi"><b>'+sum(ds,'u')+'</b><span>زائر</span></div><div class="kpi"><b>'+sum(ds,'v')+'</b><span>مرات فتح الموقع</span></div><div class="kpi"><b>'+merge(ds,'designs').reduce(function(a,r){return a+r[1]},0)+'</b><span>مرات فتح تصميم</span></div><div class="kpi"><b>'+sum(ds,'wa')+'</b><span>ضغطوا واتساب</span></div><div class="kpi"><b>'+sum(ds,'forms')+'</b><span>رسائل من النموذج</span></div></div>'+
+ '<div class="chart"><h3 style="margin:0 0 12px;font-size:15px">الزوار كل يوم</h3><div class="bars">'+cd.map(function(d){var u=D.stats[d]&&D.stats[d].u||0;return '<div style="height:'+(u/mx*100)+'%" data-t="'+d.slice(5)+': '+u+'"></div>'}).join('')+'</div><div class="blabels">'+cd.map(function(d,i){return '<span>'+((cd.length<=14||i%5===0)?d.slice(8):'')+'</span>'}).join('')+'</div></div>'+
+ '<div class="cols">'+list('من وين جوا',merge(ds,'refs'),function(k){return SRC[k]||k})+list('أكثر التصاميم مشاهدة',merge(ds,'designs'),function(k){var n=NM[k];return n?n[0]+' <i>'+n[1]+'</i>':k})+list('أكثر الأقسام',merge(ds,'cats'),function(k){return CN[k]||k})+
+ list('الصفحات',merge(ds,'pages'),function(k){return PG[k]||k})+list('ضغطات واتساب من',merge(ds,'waFrom'),function(k){return WF[k]||k})+list('الأجهزة واللغة',merge(ds,'dev').concat(merge(ds,'lang')),function(k){return {mobile:'جوال',desktop:'كمبيوتر',ar:'عربي',en:'English'}[k]||k})+'</div>'+
+ '<p style="color:var(--mu);font-size:12px;margin-top:14px">الزائر ينحسب مرة وحدة في اليوم. ما نحفظ أي معلومات شخصية عن الزوار.</p>';
+ L.querySelectorAll('[data-r]').forEach(function(b){b.onclick=function(){RG=+b.dataset.r;render()}})}
+function render(){
+  $('nI').textContent=D.ideas.filter(function(x){return!x.done}).length;$('nR').textContent=D.reviews.filter(function(x){return x.status!=='approved'}).length;
+  var L=$('list');
+  if(tab==='stats'){renderStats(L);return}
+  if(tab==='ideas'){L.innerHTML=D.ideas.length?D.ideas.map(function(x){var w=wa(x.phone);return '<div class="item'+(x.done?' done':'')+'"><b>'+esc(x.name)+'</b>'+(x.business?' · '+esc(x.business):'')+'<div class="meta"><span>'+when(x.at)+'</span><span dir="ltr">'+esc(x.phone)+'</span>'+(x.email?'<span>'+esc(x.email)+'</span>':'')+(x.service?'<span>'+esc(x.service)+'</span>':'')+'</div><div class="txt">'+esc(x.idea)+'</div><div class="acts">'+(w?'<a href="'+w+'" target="_blank" rel="noopener"><button class="p" type="button">راسله واتساب</button></a>':'')+'<button onclick="cdAct(\'idea\',\''+x.id+'\',\'done\')">'+(x.done?'رجّعها جديدة':'تم التواصل ✓')+'</button><button class="d" onclick="cdAct(\'idea\',\''+x.id+'\',\'delete\')">حذف</button></div></div>'}).join(''):'<div class="empty">ما في أفكار للحين.</div>'}
+  else{L.innerHTML=D.reviews.length?D.reviews.map(function(x){var ok=x.status==='approved';return '<div class="item"><span class="st">'+'★'.repeat(x.stars)+'</span> <span class="pill '+(ok?'ok':'wait')+'">'+(ok?'منشور':'ينتظر موافقتك')+'</span><div class="meta"><b style="color:var(--fg)">'+esc(x.name)+'</b>'+(x.biz?'<span>'+esc(x.biz)+'</span>':'')+'<span>'+when(x.at)+'</span>'+(x.phone?'<span dir="ltr">'+esc(x.phone)+'</span>':'')+'</div><div class="txt">'+esc(x.text)+'</div><div class="acts">'+(ok?'<button onclick="cdAct(\'review\',\''+x.id+'\',\'hide\')">إخفاء من الموقع</button>':'<button class="p" onclick="cdAct(\'review\',\''+x.id+'\',\'approve\')">موافقة ونشر</button>')+'<button class="d" onclick="cdAct(\'review\',\''+x.id+'\',\'delete\')">حذف</button></div></div>'}).join(''):'<div class="empty">ما في تقييمات للحين.</div>'}
+}
+document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){tab=b.dataset.t;document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-selected',x===b)});render()}});
+$('go').onclick=function(){$('err').textContent='';fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user:$('us').value,password:$('pw').value})}).then(function(r){return r.json().then(function(j){if(r.ok){$('pw').value='';load()}else $('err').textContent=j.msg||'اسم المستخدم أو كلمة المرور غلط.'})})};
+$('pw').onkeydown=function(e){if(e.key==='Enter')$('go').click()};
+$('ref').onclick=load;$('out').onclick=function(){api('/api/admin/logout',{method:'POST'}).then(function(){show(false)})};
+load().catch(function(){show(false)});
+})();
+</script></body></html>
