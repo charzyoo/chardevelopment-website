@@ -916,7 +916,7 @@ function route(){var r=decodeURIComponent(location.hash.slice(1))||'home';if(MAP
  var t=$('#v-'+v);t.scrollTop=0;
  document.title=(v==='home'?'Char Development | تصميم مواقع وتطبيقات وأنظمة في البحرين':($('#v-'+v).getAttribute('aria-label')+' | Char Development'));
 }
-addEventListener('hashchange',route);
+function revHash(){if(location.hash==='#review'){history.replaceState(null,'','#home');route();setTimeout(function(){$('#revOk').classList.remove('on');$('#revDlg').showModal()},400)}}addEventListener('hashchange',function(){if(location.hash==='#review')revHash();else route()});setTimeout(revHash,0);
 
 /* EXAMPLES */
 var page=0,lastCat=null;
