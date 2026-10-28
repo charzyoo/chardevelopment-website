@@ -669,7 +669,7 @@ html[dir=ltr] .pt{background:radial-gradient(300px 160px at 0% 0%,color-mix(in s
 
   <!-- CLIENTS -->
   <section class="view" id="v-clients" aria-label="Our clients">
-   <div class="vh"><div><h2><span class="ar">عملاؤنا</span><span class="en">Our clients</span></h2><p><span class="ar">شغل حقيقي سلّمناه لعملائنا. ما نعرض أسماءهم احتراماً لخصوصيتهم، ونعرض اللي بنيناه لهم.</span><span class="en">Real work we delivered. We keep our clients' names private and show what we built for them.</span></p></div></div>
+   <div class="vh"><div><h2><span class="ar">عملاؤنا</span><span class="en">Our clients</span></h2><p><span class="ar">شغل حقيقي سلّمناه لعملائنا. بعضهم نخفي اسمه احتراماً لخصوصيته، ونعرض اللي بنيناه له.</span><span class="en">Real work we delivered. Some clients stay private, so we show only what we built for them.</span></p></div></div>
    <div class="clw">
     <div class="cll" id="clList"></div>
     <div class="clv">
@@ -1075,6 +1075,9 @@ function normQ(t){return String(t||'').toLowerCase().replace(/[أإآ]/g,'ا').r
 
 /* clients */
 var CLIENTS=[
+ {id:'ada',logo:'img/cl/ada-logo.webp',c:'#c9a46a',ar:'ADAMODA',en:'ADAMODA',wa:'متجر عبايات أونلاين في البحرين',we:'Online abaya store in Bahrain',url:'https://adamoda.store/',
+  tags:[['متجر إلكتروني','Online store'],['عربي و English','Arabic & English'],['لوحة تحكم','Admin dashboard']],
+  shots:[['img/cl/ada-home.webp','الرئيسية','Home'],['img/cl/ada-feat.webp','العبايات المميزة','Featured abayas'],['img/cl/ada-shop.webp','المتجر والفلاتر','Shop and filters'],['img/cl/ada-prod.webp','صفحة العباية','Product page']]},
  {id:'law1',logo:'img/cl/law-logo.webp',c:'#c08a5a',ar:'مكتب محاماة',en:'Law firm',wa:'نظام ملفات وصلاحيات خاص بالمكتب',we:'A private files and permissions system',prod:'files',
   tags:[['Char Firm Files','Char Firm Files'],['بهوية المكتب','In their branding'],['8 مستخدمين','8 users']],
   shots:[['img/cl/law-dash.webp','لوحة التحكم','Dashboard'],['img/cl/law-login.webp','تسجيل الدخول','Sign in'],['img/cl/law-cover.webp','شعار التطبيق','App icon']]}
@@ -1085,7 +1088,7 @@ function paintClients(){var L=$('#clList');
  '<a class="clc next" href="#contact"><span class="lo"><svg><use href="#i-plus"/></svg></span><span><b>'+T('مكانك هنا','Your business here')+'</b><small>'+T('خلّ مشروعك يكون الجاي.','Make yours the next project.')+'</small></span></a>';
  $$('#clList .clc[data-i]').forEach(function(b){b.onclick=function(){clSel=+b.dataset.i;clP=0;paintClients()}});
  var c=CLIENTS[clSel];$('.clv').style.setProperty('--clc',c.c);
- $('#clHead').innerHTML='<b>'+T(c.ar,c.en)+'</b>'+c.tags.map(function(t){return '<span class="tg">'+T(t[0],t[1])+'</span>'}).join('')+(c.prod?'<a href="#products/'+c.prod+'">'+T('تفاصيل البرنامج','About this software')+'</a>':'');
+ $('#clHead').innerHTML='<b>'+T(c.ar,c.en)+'</b>'+c.tags.map(function(t){return '<span class="tg">'+T(t[0],t[1])+'</span>'}).join('')+(c.prod?'<a href="#products/'+c.prod+'">'+T('تفاصيل البرنامج','About this software')+'</a>':'')+(c.url?'<a href="'+c.url+'" target="_blank" rel="noopener">'+T('زور الموقع','Visit the site')+'</a>':'');
  var im=$('#clImg'),src=c.shots[clP][0];if(im.getAttribute('src')!==src){im.style.opacity=0;setTimeout(function(){im.src=src;im.onload=function(){im.style.opacity=1}},120)}
  $('#clStrip').innerHTML=c.shots.map(function(sh,i){return '<button class="ptab" type="button" data-i="'+i+'" aria-selected="'+(i===clP)+'"><span class="pth"><img src="'+sh[0]+'" alt=""><i>'+(i+1)+'</i></span><span class="plb">'+T(sh[1],sh[2])+'</span></button>'}).join('');
  $$('#clStrip .ptab').forEach(function(b){b.onclick=function(){clP=+b.dataset.i;paintClients()}})}
