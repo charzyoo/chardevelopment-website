@@ -1,0 +1,7 @@
+<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>push</title><body>loading
+<script>
+(async()=>{const f=new URLSearchParams(location.search).get('f');const t=document.body;
+try{const b=await (await fetch('/media/ig/'+f,{cache:'no-store'})).blob();t.textContent='got '+b.size;
+const send=()=>{if(window.opener){window.opener.postMessage({chardev:1,name:f,blob:b},'*');t.textContent='sent '+b.size}else t.textContent='no opener'};
+send();window.addEventListener('message',e=>{if(e.data==='again')send()});}catch(e){t.textContent='err '+e}})();
+</script>
